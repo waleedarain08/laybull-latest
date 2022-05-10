@@ -268,8 +268,9 @@ class UserController extends Controller
             {
                 User::where('id', auth()->user()->id)->update(['fcm_token' => $request->fcm_token]);
             }
-            $accessToken = auth()->user()->createToken('authToken')->accessToken;
-            return $this->formatResponse('success','user-login',$accessToken);
+            $data['accessToken'] = auth()->user()->createToken('authToken')->accessToken;
+            $data['user'] = Auth::user();
+            return $this->formatResponse('success','user-login',$data);
         }
         else{
             return $this->formatResponse('error','credentials not match',null,401);
