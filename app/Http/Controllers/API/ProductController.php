@@ -15,6 +15,7 @@ use App\ProductBid;
 use App\ProductFavourite;
 use App\ProductSize;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -85,29 +86,34 @@ class ProductController extends Controller
         $product->brand_id = $request->brand_id ;
         $product->name = $request->name ;
         $product->price = $request->price ;
-        $product->feature_image = $request->feature_image ;
-        $product->color = $request->color ;
-        $product->feature_image = $request->feature_image ;
-        $product->feature_image = $request->feature_image ;
+        $product->featured_image = $request->feature_image ;
+        $product->size_id = $request->size_id ;
+        $product->condition = $request->condition ;
+        $product->description = $request->description ;
+        $product->discount = $request->discount ;
+        $product->status = Product::PENDING;
+        $product->user_id = Auth::id();
         $product->save();
 
         if ($request->hasFile('featured_image')) {
             $file = $request->file('featured_image');
             $productFeatureImg = Str::random(20). '.' . $file->getClientOriginalExtension();
-            Storage::disk('public_product')->put($productFeatureImg, File::get($file));
+            Storage::disk('public_product')->put($productFeatureImg, \File::get($file));
             $imgeurl = url('media/product/'.$productFeatureImg);
         }
 
         if ($request->hasFile('images')) {
-            ProductImage::where('product_id', $product->id)->delete();
-            $filename = 'jewellery.jpg';
             foreach ($request->file('images') as $image) {
-                $a = \Str::random(5);
-                $destinationPath = 'file/'; // upload path
-                $nameonly = preg_replace('/\..+$/', '', $image->getClientOriginalName());
-                $filename = $nameonly . '_' . $a . '_' . '.' . $image->getClientOriginalExtension();
-                $image->move('images', $filename);
-                ProductImage::create(['product_id' => $product->id, 'image' => $filename]);
+//                dd($image);
+                $productImages = new ProductImage();
+                $productImages->product_id = $product->id;
+                $file = $image;
+                $productImg = Str::random(20). '.' . $file->getClientOriginalExtension();
+                Storage::disk('public_product')->put($productImg, \File::get($file));
+                $imgeurl = url('media/product/'.$productImg);
+                $productImages->image = $imgeurl;
+                $productImages->save();
+
             }
         }
 
@@ -182,8 +188,8 @@ class ProductController extends Controller
         ]);
     }
     public function brandCategory(){
-        $data['brand']=Brand::latest()->get();
-        $data['category']=Category::latest()->get();
+        $data['brand']=Brand::select('id','name')->latest()->get();
+        $data['category']=Category::select('id','name')->latest()->get();
         return $this->formatResponse('success','data get successful',$data);
     }
 

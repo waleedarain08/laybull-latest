@@ -21,6 +21,10 @@ class Product extends Model
         'featured_image',
         'release'
     ];
+    const PENDING = 'PENDING';
+    const APPROVED = 'APPROVED';
+    const REJECTED = 'REJECTED';
+
 
     public function images()
     {
