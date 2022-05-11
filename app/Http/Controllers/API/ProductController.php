@@ -181,7 +181,7 @@ class ProductController extends Controller
     {
         $sizes = ProductSize::pluck('text');
         if (isset($id)) {
-            $sizes = ProductSize::where('category_id', $id)->pluck('text');
+            $sizes = ProductSize::select('id','text')->where('category_id', $id)->get();
         }
         return response()->json([
             'data' => $sizes
