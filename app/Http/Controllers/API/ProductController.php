@@ -117,7 +117,7 @@ class ProductController extends Controller
             }
         }
 
-        return new ResourcesProduct($product);
+        return $this->formatResponse('success','Product add successfully');
     }
 
     /**
