@@ -93,14 +93,16 @@ class ProductController extends Controller
         $product->discount = $request->discount ;
         $product->status = Product::PENDING;
         $product->user_id = Auth::id();
-        $product->save();
 
-        if ($request->hasFile('featured_image')) {
-            $file = $request->file('featured_image');
+
+        if ($request->hasFile('feature_image')) {
+            $file = $request->file('feature_image');
             $productFeatureImg = Str::random(20). '.' . $file->getClientOriginalExtension();
             Storage::disk('public_product')->put($productFeatureImg, \File::get($file));
             $imgeurl = url('media/product/'.$productFeatureImg);
+            $product->featured_image = $imgeurl;
         }
+        $product->save();
 
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
