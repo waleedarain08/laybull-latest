@@ -22,4 +22,17 @@ Auth::routes();
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+
+Route::group(['middleware' => ['auth','admin']], function () {
+//    if(Auth::check()){
+//        if (Auth::user()->email != 'admin@laybull.com')
+//        {
+//            return "un authourized Person";
+//        }
+//    }
+//        dd("here");
+
+
+
+    Route::get('/home', 'HomeController@index')->name('home');
+});

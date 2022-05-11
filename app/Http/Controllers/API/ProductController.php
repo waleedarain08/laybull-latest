@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Brand;
 use App\Category;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CategoryCollection;
@@ -12,7 +13,10 @@ use App\Http\Resources\ProductBidCollection;
 use App\Http\Resources\ProductCollection;
 use App\ProductBid;
 use App\ProductFavourite;
+use App\ProductSize;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -42,6 +46,8 @@ class ProductController extends Controller
         $latest=new ProductCollection($latest);
         $release=new ProductCollection($release);
         $popular=new ProductCollection($popular);
+
+
         $categories=new CategoryCollection($categories);
 
 
@@ -74,14 +80,23 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        $product = new Product();
+        $product->category_id = $request->category_id ;
+        $product->brand_id = $request->brand_id ;
+        $product->name = $request->name ;
+        $product->price = $request->price ;
+        $product->feature_image = $request->feature_image ;
+        $product->color = $request->color ;
+        $product->feature_image = $request->feature_image ;
+        $product->feature_image = $request->feature_image ;
+        $product->save();
+
         if ($request->hasFile('featured_image')) {
-            $image = $request->file('featured_image');
-            $random = \Str::random(5);
-            $nameonly = preg_replace('/\..+$/', '', $image->getClientOriginalName());
-            $filename = $nameonly . '_' . $random . '_' . '.' . $image->getClientOriginalExtension();
-            $image->move('images', $filename);
+            $file = $request->file('featured_image');
+            $productFeatureImg = Str::random(20). '.' . $file->getClientOriginalExtension();
+            Storage::disk('public_product')->put($productFeatureImg, File::get($file));
+            $imgeurl = url('media/product/'.$productFeatureImg);
         }
-        $product = Product::create($request->except('user_id', 'featured_image') + ['user_id' => auth()->user()->id, 'featured_image' => $filename]);
 
         if ($request->hasFile('images')) {
             ProductImage::where('product_id', $product->id)->delete();
@@ -155,6 +170,21 @@ class ProductController extends Controller
         $favouriteproducts=ProductFavourite::where('user_id',auth()->user()->id)->pluck('product_id');
         $products=Product::whereIn('id',$favouriteproducts)->get();
         return new ProductCollection($products);
+    }
+    public function productsizes($id)
+    {
+        $sizes = ProductSize::pluck('text');
+        if (isset($id)) {
+            $sizes = ProductSize::where('category_id', $id)->pluck('text');
+        }
+        return response()->json([
+            'data' => $sizes
+        ]);
+    }
+    public function brandCategory(){
+        $data['brand']=Brand::latest()->get();
+        $data['category']=Category::latest()->get();
+        return $this->formatResponse('success','data get successful',$data);
     }
 
 }

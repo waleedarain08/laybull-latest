@@ -51,6 +51,10 @@ return [
             'driver' => 'local',
             'root' => public_path('media/user'),
         ],
+        'public_product' => [
+            'driver' => 'local',
+            'root' => public_path('media/product'),
+        ],
 
         'public' => [
             'driver' => 'local',
