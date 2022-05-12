@@ -91,7 +91,7 @@ class ProductFavouriteController extends Controller
      */
     public function destroy($id)
     {
-        $productfavourite = ProductFavourite::find($id);
+        $productfavourite = ProductFavourite::where('product_id',$id);
         $productfavourite->delete();
         return response()->json([
             'success' => true
