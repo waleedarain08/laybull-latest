@@ -42,7 +42,7 @@ class ProductFavouriteController extends Controller
     {
 
         $productfavourite = ProductFavourite::updateOrCreate($request->all()+['user_id'=>auth()->user()->id]);
-        return $productfavourite;
+//        return $productfavourite;
         return $this->formatResponse('success','Item has been added into favourite');
     }
 
