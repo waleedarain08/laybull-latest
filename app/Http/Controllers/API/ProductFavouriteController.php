@@ -41,7 +41,8 @@ class ProductFavouriteController extends Controller
     public function store(Request $request)
     {
 
-        $productfavourite = ProductFavourite::create($request->all()+['user_id'=>auth()->user()->id]);
+        $productfavourite = ProductFavourite::updateOrCreate($request->all()+['user_id'=>auth()->user()->id]);
+        return $productfavourite;
         return $this->formatResponse('success','Item has been added into favourite');
     }
 
