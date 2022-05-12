@@ -42,7 +42,7 @@ class ProductFavouriteController extends Controller
     {
 
         $productfavourite = ProductFavourite::create($request->all()+['user_id'=>auth()->user()->id]);
-        return new ResourcesProductFavourite($productfavourite);
+        return $this->formatResponse('success','Item has been added into favourite');
     }
 
     /**
@@ -93,8 +93,6 @@ class ProductFavouriteController extends Controller
     {
         $productfavourite = ProductFavourite::where('product_id',$id);
         $productfavourite->delete();
-        return response()->json([
-            'success' => true
-        ]);
+        return $this->formatResponse('success','Item has been remove from favourite');
     }
 }
