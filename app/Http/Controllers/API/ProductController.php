@@ -147,7 +147,6 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-//        dd($id);
         $product = Product::with('images')->find($id);
         if ($product){
 
