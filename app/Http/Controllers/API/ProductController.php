@@ -14,6 +14,7 @@ use App\Http\Resources\ProductCollection;
 use App\ProductBid;
 use App\ProductFavourite;
 use App\ProductSize;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -26,6 +27,10 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function array_push_assoc($array, $key, $value){
+        $array[$key] = $value;
+        return $array;
+    }
     public function index(Request $request)
     {
         $products = Product::paginate(25);
@@ -36,17 +41,30 @@ class ProductController extends Controller
         return new ProductCollection($products);
     }
 
+    public function currencyGet(){
+        $client = new Client();
+        $response = $client->request('GET','http://api.exchangeratesapi.io/v1/latest?access_key=7277c2a26cfb6874f4d2d3c8681c88b5');
+
+        $response_body = json_decode($response->getBody());
+        $currency=array();
+        foreach($response_body->rates as $key=>$rate){
+            $rate1=$rate/$response_body->rates->AED;
+            $currency = $this->array_push_assoc($currency, $key, $rate1);
+        }
+        return $this->formatResponse('success','currency get successfully',$currency);
+    }
     public function homeproducts(){
+
         $laybull_picks=Product::where('featured',1)->limit(10)->get();
         $latest=Product::orderBy('id','desc')->limit(10)->get();
         $release=Product::where('release',1)->limit(10)->get();
         $popular=Product::where('popular',1)->limit(10)->get();
         $categories=Category::all();
-
+//        return $laybull_picks;
         $laybull_picks=new ProductCollection($laybull_picks);
-        $latest=new ProductCollection($latest);
-        $release=new ProductCollection($release);
-        $popular=new ProductCollection($popular);
+        $latest = new ProductCollection($latest);
+        $release = new ProductCollection($release);
+        $popular = new ProductCollection($popular);
 
 
         $categories=new CategoryCollection($categories);
@@ -58,7 +76,6 @@ class ProductController extends Controller
             'latest'=>$latest,
             'release'=>$release,
             'popular'=>$popular,
-
         ]);
 
     }
