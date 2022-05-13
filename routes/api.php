@@ -30,6 +30,8 @@ Route::middleware('auth:api')->group(function () {
     Route::get('productsizes/{id}', 'API\ProductController@productsizes');
     Route::get('brand_category', 'API\ProductController@brandCategory');
 
+    Route::get('currency', 'API\ProductController@currencyGet');
+
     Route::get('beercard', 'API\OrderController@beercard')->name('beercard');
     Route::get('resetbeercard', 'API\OrderController@resetbeercard')->name('resetbeercard');
 

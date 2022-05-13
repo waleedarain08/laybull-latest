@@ -14,9 +14,7 @@ class User extends JsonResource
      */
     public function toArray($request)
     {
-        $base_url = asset('images');
-
-        $image_url = $this->profile_picture ? $base_url . '/' . $this->profile_picture : "";
+        $image_url = $this->profile_picture ?  '/' . $this->profile_picture : "";
 
         return [
             'id' => $this->id,

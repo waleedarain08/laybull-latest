@@ -27,12 +27,15 @@ Route::group(['middleware' => ['auth','admin']], function () {
 //    if(Auth::check()){
 //        if (Auth::user()->email != 'admin@laybull.com')
 //        {
-//            return "un authourized Person";
+//            return "un authourized Pe
+////        dd("hererson";
 //        }
-//    }
-//        dd("here");
+//    }");
 
 
 
     Route::get('/home', 'HomeController@index')->name('home');
+    Route::resource('product','\App\Http\Controllers\ProductController');
+    Route::post('product-reject/{id}','\App\Http\Controllers\ProductController@rejectProduct')->name('product-reject');
+    Route::get('product-approve/{id}','\App\Http\Controllers\ProductController@approveProduct')->name('product-approve');
 });

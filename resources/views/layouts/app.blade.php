@@ -9,9 +9,11 @@
           integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog=="
           crossorigin="anonymous"/>
     <script src="{{ url('js/app.js') }}" defer></script>
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-    <script src="https://cdn.ckeditor.com/4.18.0/standard/ckeditor.js"></script>
+{{--    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>--}}
 
+    <script src="https://cdn.ckeditor.com/4.18.0/standard/ckeditor.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 
     <link href="{{url('css/app.css')}}" rel="stylesheet">
@@ -84,6 +86,12 @@
 </div>
 <link href="//cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="//cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+{{--<script>--}}
+{{--    --}}
+{{--        $(document).ready(function() {--}}
+{{--            alert("I am an alert box!");--}}
+{{--        });--}}
+{{--</script>--}}
 @yield('third_party_scripts')
 
 @stack('page_scripts')

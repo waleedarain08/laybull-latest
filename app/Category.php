@@ -14,4 +14,7 @@ class Category extends Model
     {
         return $this->hasMany(Product::class, 'category_id')->orderBy('id','desc');
     }
+    public function categorySize(){
+        return $this->hasMany(ProductSize::class,'category_id');
+    }
 }
