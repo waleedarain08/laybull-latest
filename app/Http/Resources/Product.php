@@ -27,7 +27,7 @@ class Product extends JsonResource
         'discount'=>$this->discount,
         'sold'=>$this->sold,
         'favourite'=>$this->favourited(),
-        'featured_image'=>asset('images').'/'.$this->featured_image,
+        'featured_image'=>$this->featured_image,
         'user'=>new User($this->user),
         'highest_bid'=>$this->whenLoaded('images',function(){
             $this->highest_bid();
