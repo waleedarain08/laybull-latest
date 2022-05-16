@@ -92,29 +92,26 @@
                                         <div class="form-group">
                                             <label for="popularProduct">Popular Product</label>
                                             <select  id="popularProduct" name="popular" class="form-control custom-select" required="">
-                                                <option value="0">none</option>
-                                                <option value="1">YES</option>
-                                                <option value="0" selected="">NO</option>
+                                                <option value="1" {{ $product->popular == 1 ? 'selected' : ''}}>YES</option>
+                                                <option value="0" {{$product->popular == 0 ? 'selected' : ''}} >NO</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-md-12 col-sm-4">
                                         <div class="form-group">
                                             <label for="popularProduct">Laybull Pick</label>
-                                            <select  id="popularProduct" name="popular" class="form-control custom-select" required="">
-                                                <option value="0">none</option>
-                                                <option value="1">YES</option>
-                                                <option value="0" selected="">NO</option>
+                                            <select  id="popularProduct" name="laybull_pick" class="form-control custom-select" required="">
+                                                <option {{$product->featured == 1 ? 'selected' : ''}} value="1">YES</option>
+                                                <option {{$product->featured == 0 ? 'selected' : ''}} value="0" >NO</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-md-12 col-sm-4">
                                         <div class="form-group">
                                             <label for="popularProduct">Laybull Release</label>
-                                            <select  id="popularProduct" name="popular" class="form-control custom-select" required="">
-                                                <option value="0">none</option>
-                                                <option value="1">YES</option>
-                                                <option value="0" selected="">NO</option>
+                                            <select  id="popularProduct" name="laybull_release" class="form-control custom-select" required="">
+                                                <option {{$product->release == 1 ? 'selected' : ''}} value="1">YES</option>
+                                                <option {{$product->release == 0 ? 'selected' : ''}} value="0" >NO</option>
                                             </select>
                                         </div>
                                     </div>

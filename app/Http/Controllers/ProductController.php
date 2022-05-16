@@ -72,21 +72,14 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
+//        return $request->all();
        $product = Product::find($id);
-        $product->category_id = $request ;
-        $product->brand_id = $request ;
-        $product->status = $request ;
-        $product->popular = $request ;
-        $product->release = $request ;
-        $product->name = $request ;
-        $product->featured = $request ;
-        $product->color = $request ;
-        $product->size_id = $request ;
-        $product->featured = $request ;
-        $product->color = $request ;
-        $product->condition = $request ;
-        $product->description = $request ;
+
+        $product->popular = $request->popular ;
+        $product->release = $request->laybull_release ;
+        $product->featured =$request->laybull_pick;
        $product->save();
+        return redirect()->route('product.index');
     }
 
     /**
