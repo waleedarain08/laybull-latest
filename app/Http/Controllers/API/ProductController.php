@@ -48,7 +48,7 @@ class ProductController extends Controller
         $response_body = json_decode($response->getBody());
         $currency=array();
         foreach($response_body->rates as $key=>$rate){
-            $rate1=$rate/$response_body->rates->AED;
+            $rate1=$rate/$response_body->rates->EUR;
             $currency = $this->array_push_assoc($currency, $key, $rate1);
         }
         return $this->formatResponse('success','currency get successfully',$currency);
