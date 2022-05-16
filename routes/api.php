@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
+Route::get('currency', 'API\ProductController@currencyGet');
 Route::middleware('auth:api')->group(function () {
 
     Route::resource('users', 'API\UserController');
@@ -30,7 +30,6 @@ Route::middleware('auth:api')->group(function () {
     Route::get('productsizes/{id}', 'API\ProductController@productsizes');
     Route::get('brand_category', 'API\ProductController@brandCategory');
 
-    Route::get('currency', 'API\ProductController@currencyGet');
 
     Route::get('beercard', 'API\OrderController@beercard')->name('beercard');
     Route::get('resetbeercard', 'API\OrderController@resetbeercard')->name('resetbeercard');
