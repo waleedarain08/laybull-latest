@@ -23,10 +23,12 @@
             @foreach($sliders as $slider)
 
             <tr>
-            <th scope="col">1</th>
+            <th scope="col">{{$loop->index+1}}</th>
             <td scope="col">Text</td>
-            <td scope="col">Direct To</td>
-            <td scope="col">Category</td>
+            <td scope="col">
+                <img style="height: 100px;width: 100px;" src="{{$slider->img_url}}" alt="">
+            </td>
+            <td scope="col">{{$slider->text}}</td>
             <td class="text-middle">
                 <form method="post" action="{{route('slider.destroy',$slider->id)}}" class="">
                     @csrf

@@ -100,4 +100,8 @@ class SliderController extends Controller
         return redirect()->route('slider.index');
 
     }
+    public function apiSlider(){
+        $sliders = slider::latest()->get();
+        return $this->formatResponse('success','slider get',$sliders);
+    }
 }

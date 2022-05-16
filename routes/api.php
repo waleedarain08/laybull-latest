@@ -25,6 +25,7 @@ Route::middleware('auth:api')->group(function () {
     Route::resource('orders', 'API\OrderController');
     Route::resource('notifications', 'API\NotificationController');
     Route::resource('feedbacks', 'API\FeedbackController');
+    Route::get('slider','\App\Http\Controllers\SliderController@apiSlider');
     Route::get('favouriteproducts', 'API\ProductController@favouriteproducts')->name('favouriteproducts');
 
     Route::get('productsizes/{id}', 'API\ProductController@productsizes');
