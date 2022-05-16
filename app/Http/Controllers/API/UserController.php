@@ -436,4 +436,37 @@ class UserController extends Controller
         $countries = Country::all();
         return new CountryCollection($countries);
     }
+    public function post_seller_account_details(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+             'account_holder_name' => 'required',
+             'account_number' => 'required',
+             'account_phone_number' => 'required',
+             'account_bank_name' => 'required',
+             'account_iban' => 'required'
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 401);
+        } else {
+            try {
+                $user = User::find(Auth::id());
+
+                $user->update(['is_seller' => 1,
+                                'account_name' => $request->account_holder_name,
+                                'card_number' => $request->account_number,
+                                'bank_name' => $request->account_bank_name,
+                                'iban' => $request->account_iban,
+                    ]);
+
+
+                $status = 'True';
+                $message = 'User Detail.';
+                $user=User::find(Auth::id());
+
+                return response()->json(compact('status', 'message', 'user'), 200);
+            } catch (\Exception $e) {
+                return response()->json(['message' => $e->getMessage()]);
+            }
+        }
+    }
 }

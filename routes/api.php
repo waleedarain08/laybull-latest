@@ -30,6 +30,8 @@ Route::middleware('auth:api')->group(function () {
     Route::get('productsizes/{id}', 'API\ProductController@productsizes');
     Route::get('brand_category', 'API\ProductController@brandCategory');
 
+    Route::post('seller_account_details', 'Api\UserController@post_seller_account_details');
+
 
     Route::get('beercard', 'API\OrderController@beercard')->name('beercard');
     Route::get('resetbeercard', 'API\OrderController@resetbeercard')->name('resetbeercard');
@@ -53,7 +55,6 @@ Route::post('privacy', 'API\UserController@privacy')->name('users.privacy');
 Route::post('loginwithemail', 'API\UserController@loginwithemail')->name('users.loginwithemail');
 
 Route::post('signup', 'API\UserController@store')->name('users.signup');
-
 //Route::get('/email/resend', 'API\VerificationController@resend')->name('verification.resend');
 
 Route::get('/email/verify/{id}/{hash}', 'API\UserController@verify')->name('verification.verify');
