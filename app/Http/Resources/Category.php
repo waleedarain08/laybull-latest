@@ -17,7 +17,7 @@ class Category extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'image' => asset('images') . '/' . $this->image,
+            'image' =>$this->image,
             'products' => Product::collection($this->whenLoaded('products')),
         ];
     }
