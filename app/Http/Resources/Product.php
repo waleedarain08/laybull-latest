@@ -29,9 +29,7 @@ class Product extends JsonResource
         'favourite'=>$this->favourited(),
         'featured_image'=>$this->featured_image,
         'user'=>new User($this->user),
-        'highest_bid'=>$this->whenLoaded('images',function(){
-            $this->highest_bid();
-        }),
+        'highest_bid'=>$this->highest_bid(),
         'images'=>ProductImage::collection($this->whenLoaded('images')),
 
 

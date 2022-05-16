@@ -46,7 +46,9 @@ class ProductBidController extends Controller
      */
     public function store(Request $request)
     {
+//        dd("here");
         $product=Product::find($request->product_id);
+//        return $product;
         $check=ProductBid::where('product_id',$request->product_id)->max('price');
         if($check!=null){
             if($check > $request->price){

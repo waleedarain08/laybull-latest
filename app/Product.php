@@ -48,6 +48,7 @@ class Product extends Model
     public function highest_bid()
     {
         $highest_bid = ProductBid::orderBy('price', 'desc')->where('product_id', $this->id)->first();
+//        dd($highest_bid);
         if($highest_bid!=null){
             return (int)$highest_bid->price;
         }
