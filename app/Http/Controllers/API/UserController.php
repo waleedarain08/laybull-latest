@@ -375,7 +375,7 @@ class UserController extends Controller
 
         // $user->update($request->all());
         $user['user'] = User::find($id);
-        return $this->formatResponse('success','user data updated');
+        return $this->formatResponse('success','user data updated',$user);
     }
 
     /**
