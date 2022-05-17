@@ -259,11 +259,11 @@ class UserController extends Controller
 
         if(Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $user = Auth::user();
-            if(!$user->email_verified_at)
-            {
-                auth()->logout();
-                return $this->formatResponse('error','Email not Verify',null,403);
-            }
+//            if(!$user->email_verified_at)
+//            {
+//                auth()->logout();
+//                return $this->formatResponse('error','Email not Verify',null,403);
+//            }
             if ($request->fcm_token)
             {
                 User::where('id', auth()->user()->id)->update(['fcm_token' => $request->fcm_token]);
