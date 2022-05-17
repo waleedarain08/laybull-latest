@@ -23,7 +23,7 @@ class User extends JsonResource
             'email' => $this->email,
             'city' => $this->city,
             'country' => $this->country,
-            'contact' => $this->contact,
+            'contact' => $this->phone_number,
             'is_seller' => $this->is_seller,
             'profile_picture' => $image_url,
             'iban' => $this->iban,

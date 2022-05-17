@@ -340,24 +340,42 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'email' => 'unique:users,email,' . auth()->user()->id,
+        $validator = Validator::make($request->all(), [
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'phone_number' => 'required',
+            'country' => 'required',
+            'city' => 'required',
+            'address' => 'required',
+            'profile_picture' => 'required',
         ]);
-        $user = User::find(auth()->user()->id);
-
-        if ($request->hasFile('profile_picture')) {
-            $image = $request->file('profile_picture');
-            $random = \Str::random(5);
-            $nameonly = preg_replace('/\..+$/', '', $image->getClientOriginalName());
-            $filename = $nameonly . '_' . $random . '_' . '.' . $image->getClientOriginalExtension();
-            $image->move('images', $filename);
-            $user->update($request->except('password', 'profile_picture') + ['profile_picture' => $filename]);
-        } else {
-            $user->update($request->except('password', 'profile_picture'));
+        if ($validator->fails()) {
+            return $this->formatResponse('error', 'validation error', $validator->errors(), 403);
         }
+        $user = User::find($id);
+        $user->first_name = $request->first_name ;
+        $user->last_name = $request->last_name ;
+        $user->phone_number = $request->phone_number ;
+        $user->country = $request->country ;
+        $user->city = $request->city ;
+        $user->address = $request->address ;
+        $user->dob = $request->dob ;
+        if ($request->hasFile('profile_picture')) {
+            $file = $request->file('profile_picture');
+            $userImageName = $id.'_laybull_user_' .Str::random(10). '.' . $file->getClientOriginalExtension();
+            Storage::disk('public_user')->put($userImageName, File::get($file));
+            $user->profile_picture = url('media/user/'.$userImageName);
+        }
+        if ($user->is_seller ==1){
+            $user->bank_name = $request->bank_name ;
+            $user->card_number = $request->card_number ;
+            $user->iban = $request->iban ;
+            $user->account_name = $request->account_name ;
+        }
+        $user->save();
 
         // $user->update($request->all());
-        $user = User::find(auth()->user()->id);
+        $user = User::find($id);
         return new ResourcesUser($user);
     }
 
