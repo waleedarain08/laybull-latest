@@ -375,8 +375,8 @@ class UserController extends Controller
         $user->save();
 
         // $user->update($request->all());
-        $user = User::find($id);
-        return new ResourcesUser($user);
+        $user['user'] = User::find($id);
+        return $this->formatResponse('success','user data updated');
     }
 
     /**
