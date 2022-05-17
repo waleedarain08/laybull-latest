@@ -347,7 +347,6 @@ class UserController extends Controller
             'country' => 'required',
             'city' => 'required',
             'address' => 'required',
-            'profile_picture' => 'required',
         ]);
         if ($validator->fails()) {
             return $this->formatResponse('error', 'validation error', $validator->errors(), 403);
