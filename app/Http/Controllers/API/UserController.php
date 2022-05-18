@@ -316,7 +316,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user = User::with('products')->find(auth()->user()->id);
+        $user = User::with('products')->find($id);
         return new ResourcesUser($user);
     }
 
