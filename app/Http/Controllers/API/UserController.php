@@ -359,12 +359,6 @@ class UserController extends Controller
         $user->city = $request->city ;
         $user->address = $request->address ;
         $user->dob = $request->dob ;
-        if ($request->hasFile('profile_picture')) {
-            $file = $request->file('profile_picture');
-            $userImageName = $id.'_laybull_user_' .Str::random(10). '.' . $file->getClientOriginalExtension();
-            Storage::disk('public_user')->put($userImageName, File::get($file));
-            $user->profile_picture = url('media/user/'.$userImageName);
-        }
         if ($user->is_seller ==1){
             $user->bank_name = $request->bank_name ;
             $user->card_number = $request->card_number ;
@@ -395,17 +389,14 @@ class UserController extends Controller
 
     public function profilepicture(Request $request)
     {
-        $image = $request->file('profile_picture');
-        $random = \Str::random(5);
-        $nameonly = preg_replace('/\..+$/', '', $image->getClientOriginalName());
-        $filename = $nameonly . '_' . $random . '_' . '.' . $image->getClientOriginalExtension();
-        $image->move('images', $filename);
-
         $user = User::find(auth()->user()->id);
-        $user->update(['profile_picture' => $filename]);
-
-        $user = User::find(auth()->user()->id);
-        return new ResourcesUser($user);
+        if ($request->hasFile('profile_picture')) {
+            $file = $request->file('profile_picture');
+            $userImageName = '_laybull_user_' .Str::random(10). '.' . $file->getClientOriginalExtension();
+            Storage::disk('public_user')->put($userImageName, File::get($file));
+            $user->profile_picture = url('media/user/'.$userImageName);
+        }
+        return $this->formatResponse('success','profile updated');
     }
 
     public function changepassword(Request $request)
