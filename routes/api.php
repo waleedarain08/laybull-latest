@@ -44,9 +44,12 @@ Route::middleware('auth:api')->group(function () {
     Route::get('mylikes', 'UserController@mylikes')->name('users.mylikes');
     Route::post('notificationtoggle', 'API\UserController@notificationtoggle')->name('users.notificationtoggle');
 
-    Route::post('profilepicture', 'UserController@profilepicture')->name('users.profilepicture');
+    Route::post('profilepicture', 'API\UserController@profilepicture')->name('users.profilepicture');
     Route::get('homeproducts', 'API\ProductController@homeproducts')->name('homeproducts');
     Route::get('email/resend', 'API\UserController@resend')->name('email.resend');
+
+    Route::get('getSendOffersList', 'OfferController@offers');
+    Route::get('getReceivedOffers', 'OfferController@collectOffers');
 });
 
 Route::get('/email/verify/{id}/{hash}', 'API\UserController@verify')->name('verification.verify');
