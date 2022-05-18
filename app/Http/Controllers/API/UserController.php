@@ -351,7 +351,7 @@ class UserController extends Controller
         if ($validator->fails()) {
             return $this->formatResponse('error', 'validation error', $validator->errors(), 403);
         }
-        $user = User::find($id);
+        $user = User::find(Auth::id());
         $user->first_name = $request->first_name ;
         $user->last_name = $request->last_name ;
         $user->phone_number = $request->phone_number ;
@@ -392,11 +392,12 @@ class UserController extends Controller
         $user = User::find(auth()->user()->id);
         if ($request->hasFile('profile_picture')) {
             $file = $request->file('profile_picture');
-            $userImageName = '_laybull_user_' .Str::random(10). '.' . $file->getClientOriginalExtension();
+            $userImageName = 'laybull_user_' .Str::random(10). '.' . $file->getClientOriginalExtension();
             Storage::disk('public_user')->put($userImageName, File::get($file));
             $user->profile_picture = url('media/user/'.$userImageName);
+            $user->save();
         }
-        return $this->formatResponse('success','profile updated');
+        return $this->formatResponse('success','profile updated',User::find(Auth::id()));
     }
 
     public function changepassword(Request $request)
