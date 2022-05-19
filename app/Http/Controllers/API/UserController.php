@@ -273,7 +273,7 @@ class UserController extends Controller
             return $this->formatResponse('success','user-login',$data);
         }
         else{
-            return $this->formatResponse('error','Email or Password is  not match',null,401);
+            return $this->formatResponse('error','Email or Password is incorrect',null,401);
         }
     }
     public function forgot_password(Request $request)
