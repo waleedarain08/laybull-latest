@@ -73,7 +73,7 @@ class UserController extends Controller
             'password' => 'required',
         ]);
         if ($validator->fails()) {
-            return $this->formatResponse('error', 'validation error', $validator->errors(), 403);
+            return $this->formatResponse('error', 'validation error', $validator->errors()->first(), 403);
         }
         $user = new User();
         $user->first_name = $request->first_name;
@@ -273,7 +273,7 @@ class UserController extends Controller
             return $this->formatResponse('success','user-login',$data);
         }
         else{
-            return $this->formatResponse('error','credentials not match',null,401);
+            return $this->formatResponse('error','Email or Password is  not match',null,401);
         }
     }
     public function forgot_password(Request $request)
