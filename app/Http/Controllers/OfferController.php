@@ -19,7 +19,7 @@ class OfferController extends Controller
         })->get();
 
         foreach ($bids as $bid) {
-            $product = Product::select('id','user_id','name','condition','available','size_id')->where('id', $bid->product_id)
+            $product = Product::select('id','user_id','name','condition','sold','size_id')->where('id', $bid->product_id)
                 ->where('available',1)
                 ->first();
             $size = ProductSize::select('id','text')->find($product->size_id);
@@ -46,6 +46,37 @@ class OfferController extends Controller
         } else {
             $status = 'False';
             $message = 'You Don`t Send any Offers';
+            return response()->json(compact('status', 'message'), 201);
+        }
+    }
+    public function collectOffers()
+    {
+        $bids = ProductBid::where(function ($query) {
+            $query->where('user_id', Auth::user()->id)->where('counter', '!=', NULL)->where('status', '=', NULL);
+        })->orwhere(function ($query) {
+            $query->where('vendor_id', Auth::user()->id)
+                ->where('counter', NULL)
+                ->where('status', NULL);
+        })->get();
+
+        foreach ($bids as $bid) {
+            $product = Product::with('images')->with('user')->where('id', $bid->product_id)->where('available',1)->first();
+            $bid->setAttribute('product', $product);
+        }
+
+
+        // $bids = ProductBid::where('vendor_id', Auth::user()->id)->where('status',NULL)->where('counter',NULL)->get();
+        //     foreach($bids as $bid){
+        //         $product=Product::with('images')->with('user')->where('id',$bid->product_id)->first();
+        //         $bid->setAttribute('product',$product);
+        //     }
+        if ($bids) {
+            $status = 'True';
+            $message = 'Your All Recieved Offers...';
+            return response()->json(compact('status', 'message', 'bids'), 201);
+        } else {
+            $status = 'False';
+            $message = 'You Dont Have Any Offers';
             return response()->json(compact('status', 'message'), 201);
         }
     }
