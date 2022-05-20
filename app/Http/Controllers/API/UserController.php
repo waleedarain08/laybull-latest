@@ -359,7 +359,7 @@ class UserController extends Controller
         $user->city = $request->city ;
         $user->address = $request->address ;
         $user->dob = $request->dob ;
-        if ($user->is_seller == 1){
+        if ($request->is_seller == 1){
             $user->bank_name = $request->bank_name ;
             $user->card_number = $request->card_number ;
             $user->iban = $request->iban ;
