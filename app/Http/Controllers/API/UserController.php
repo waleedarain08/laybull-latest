@@ -368,7 +368,7 @@ class UserController extends Controller
         $user->save();
 
         // $user->update($request->all());
-        $user['user'] = User::find(Auth::id());
+        $user = User::find(Auth::id());
         return $this->formatResponse('success','user data updated',$user);
     }
 
