@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\ProductSize;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class Product extends JsonResource
@@ -14,6 +15,7 @@ class Product extends JsonResource
      */
     public function toArray($request)
     {
+        $size =  ProductSize::find($this->size_id);
         return [
         'id'=>$this->id,
         'category'=>optional($this->category)->name,
@@ -21,7 +23,7 @@ class Product extends JsonResource
         'name'=>$this->name,
         'price'=>$this->price,
         'color'=>$this->color,
-        'size'=>$this->category->categorySize,
+        'size'=>$size->text,
         'condition'=>$this->condition,
         'description'=>$this->description,
         'discount'=>$this->discount,
