@@ -59,6 +59,14 @@ return [
             'driver' => 'local',
             'root' => public_path('media/slider'),
         ],
+        'public_category' => [
+            'driver' => 'local',
+            'root' => public_path('media/category'),
+        ],
+        'public_brand' => [
+            'driver' => 'local',
+            'root' => public_path('media/brand'),
+        ],
 
         'public' => [
             'driver' => 'local',

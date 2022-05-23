@@ -34,24 +34,24 @@
 {{--        <p>User</p>--}}
 {{--    </a>--}}
 {{--</li>--}}
-{{--<li class="nav-item">--}}
-{{--    <a href="" class="nav-link  ">--}}
-{{--        <i class="nav-icon fa fa-user-secret"></i>--}}
-{{--        <p>Vendor</p>--}}
-{{--    </a>--}}
-{{--</li>--}}
-{{--<li class="nav-item">--}}
-{{--    <a href="" class="nav-link  ">--}}
-{{--        <i class="nav-icon fa fa-bold"></i>--}}
-{{--        <p>Brand</p>--}}
-{{--    </a>--}}
-{{--</li>--}}
-{{--<li c<li class="nav-item">--}}
-{{--    <a href="" class="nav-link  ">--}}
-{{--        <i class="nav-icon fa fa-sitemap"></i>--}}
-{{--        <p>Categories</p>--}}
-{{--    </a>--}}
-{{--</li>--}}
+<li class="nav-item">
+    <a href="" class="nav-link  ">
+        <i class="nav-icon fa fa-user-secret"></i>
+        <p>Vendor</p>
+    </a>
+</li>
+<li class="nav-item">
+    <a href="" class="nav-link  ">
+        <i class="nav-icon fa fa-bold"></i>
+        <p>Brand</p>
+    </a>
+</li>
+<li c<li class="nav-item">
+    <a href="" class="nav-link  ">
+        <i class="nav-icon fa fa-sitemap"></i>
+        <p>Categories</p>
+    </a>
+</li>
 {{--<li class="nav-item">--}}
 {{--    <a href="" class="nav-link  ">--}}
 {{--        <i class="fa fa-cart-arrow-down"></i>--}}
