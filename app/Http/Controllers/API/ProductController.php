@@ -227,28 +227,28 @@ class ProductController extends Controller
         }
         if ($request->type == 'release_calendar'){
             $product = Product::with('category.categorySize')
-                ->select('id','featured_image','name','size_id','price')
+                ->select('id','featured_image','name','size_id','price','category_id')
                 ->where('release',1)
                 ->simplePaginate(15);
             return $this->formatResponse('success','product get successfully',$product);
         }
         if ($request->type == 'popular_product'){
             $product = Product::with('category.categorySize')
-                ->select('id','featured_image','name','size_id','price')
+                ->select('id','featured_image','name','size_id','price','category_id')
                 ->where('popular',1)
                 ->simplePaginate(15);
             return $this->formatResponse('success','product get successfully',$product);
         }
         if ($request->type == 'recently_listed'){
             $product = Product::with('category.categorySize')
-                ->select('id','featured_image','name','size_id','price')
+                ->select('id','featured_image','name','size_id','price','category_id')
                 ->latest()
                 ->simplePaginate(15);
             return $this->formatResponse('success','product get successfully',$product);
         }
         if ($request->type == 'laybull_pick'){
             $product = Product::with('category.categorySize')
-                ->select('id','featured_image','name','size_id','price')
+                ->select('id','featured_image','name','size_id','price','category_id')
                 ->where('featured',1)
                 ->simplePaginate(15);
             return $this->formatResponse('success','product get successfully',$product);
