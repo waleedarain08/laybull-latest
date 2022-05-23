@@ -15,6 +15,7 @@ use App\Http\Resources\CountryCollection;
 use App\Http\Resources\EventFavouriteCollection;
 use App\Http\Resources\EventGoingCollection;
 use App\Http\Resources\EventLikeCollection;
+use App\Product;
 use App\User;
 use App\Http\Resources\User as ResourcesUser;
 use App\Http\Resources\UserCollection;
@@ -270,6 +271,14 @@ class UserController extends Controller
             }
             $data['accessToken'] = auth()->user()->createToken('authToken')->accessToken;
             $data['user'] = Auth::user();
+//            return($data['user']['id']);
+            $data['user']['selling_products'] = Product::where([
+            ['user_id','=',$data['user']['id']],
+                ['sold','=',1]
+            ])->get();
+            return $data;
+            $data['user']['order_product'] = Auth::user();
+            $data['user']['offer_product'] = Auth::user();
             return $this->formatResponse('success','user-login',$data);
         }
         else{
