@@ -18,6 +18,7 @@ use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 class ProductController extends Controller
@@ -216,6 +217,42 @@ class ProductController extends Controller
         $data['brand']=Brand::select('id','name')->latest()->get();
         $data['category']=Category::select('id','name')->latest()->get();
         return $this->formatResponse('success','data get successful',$data);
+    }
+    public function allProduct(Request $request){
+        $validator = Validator::make($request->all(), [
+            'type' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return $this->formatResponse('error', 'validation error', $validator->errors()->first(), 403);
+        }
+        if ($request->type == 'release_calendar'){
+            $product = Product::with('category.categorySize')
+                ->select('id','featured_image','name','size_id','price')
+                ->where('release',1)
+                ->simplePaginate(15)();
+            return $this->formatResponse('success','product get successfully',$product);
+        }
+        if ($request->type == 'popular_product'){
+            $product = Product::with('category.categorySize')
+                ->select('id','featured_image','name','size_id','price')
+                ->where('popular',1)
+                ->simplePaginate(15);
+            return $this->formatResponse('success','product get successfully',$product);
+        }
+        if ($request->type == 'recently_listed'){
+            $product = Product::with('category.categorySize')
+                ->select('id','featured_image','name','size_id','price')
+                ->latest()
+                ->simplePaginate(15);
+            return $this->formatResponse('success','product get successfully',$product);
+        }
+        if ($request->type == 'laybull_pick'){
+            $product = Product::with('category.categorySize')
+                ->select('id','featured_image','name','size_id','price')
+                ->where('featured',1)
+                ->simplePaginate(15);
+            return $this->formatResponse('success','product get successfully',$product);
+        }
     }
 
 }

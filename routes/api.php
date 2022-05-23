@@ -50,6 +50,9 @@ Route::middleware('auth:api')->group(function () {
 
     Route::get('getSendOffersList', 'OfferController@offers');
     Route::get('getReceivedOffers', 'OfferController@collectOffers');
+    Route::post('counterBid', 'OfferController@bid_counter');
+
+    Route::post('all-product','API\ProductController@allProduct');
 });
 
 Route::get('/email/verify/{id}/{hash}', 'API\UserController@verify')->name('verification.verify');
