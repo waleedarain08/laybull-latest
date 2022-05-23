@@ -21,7 +21,7 @@ class Product extends JsonResource
         'name'=>$this->name,
         'price'=>$this->price,
         'color'=>$this->color,
-        'size'=>$this->category->categorySize->text,
+        'size'=>$this->category->categorySize,
         'condition'=>$this->condition,
         'description'=>$this->description,
         'discount'=>$this->discount,
