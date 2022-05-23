@@ -110,6 +110,7 @@ class ProductController extends Controller
         $product->description = $request->description ;
         $product->discount = $request->discount ;
         $product->status = Product::PENDING;
+        $product->color = $request->color;
         $product->user_id = Auth::id();
 
 
