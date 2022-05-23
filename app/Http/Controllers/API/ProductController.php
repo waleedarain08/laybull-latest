@@ -229,7 +229,7 @@ class ProductController extends Controller
             $product = Product::with('category.categorySize')
                 ->select('id','featured_image','name','size_id','price')
                 ->where('release',1)
-                ->simplePaginate(15)();
+                ->simplePaginate(15);
             return $this->formatResponse('success','product get successfully',$product);
         }
         if ($request->type == 'popular_product'){
