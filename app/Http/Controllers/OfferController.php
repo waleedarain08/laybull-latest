@@ -53,18 +53,21 @@ class OfferController extends Controller
     }
     public function collectOffers()
     {
+//        dd(Auth::user()->id);
         $bids = ProductBid::where(function ($query) {
-            $query->where('user_id', Auth::user()->id)->where('counter', '!=', NULL)->where('status', '=', NULL);
-        })->orwhere(function ($query) {
-            $query->where('vendor_id', Auth::user()->id)
-                ->where('counter', NULL)
-                ->where('status', NULL);
+            $query->where('vendor_id', Auth::id())
+             ->where('counter', '=', NULL);
         })->get();
-
+//        return  $bids;
         foreach ($bids as $bid) {
-            $product = Product::with('images')->with('user')->where('id', $bid->product_id)->where('available',1)->first();
+            $product = Product::select('id','user_id','name','condition','featured_image','sold','size_id')
+                ->where('id', $bid->product_id)
+                ->where('available',1)
+                ->first();
             $bid->setAttribute('product', $product);
         }
+        return($bids);
+
 
 
         // $bids = ProductBid::where('vendor_id', Auth::user()->id)->where('status',NULL)->where('counter',NULL)->get();
@@ -95,17 +98,7 @@ class OfferController extends Controller
 
         $bid = ProductBid::findOrFail($request->bid_id);
         $bid->counter = $request->counter;
-
-        $bid->update();
-
-        if ($bid) {
-            $status = 'True';
-            $message = 'Product Biding Counter SuccessFully...';
-            return response()->json(compact('status', 'message', 'bid', 'notification'), 201);
-        } else {
-            $status = 'False';
-            $message = 'Something Went Wrong';
-            return response()->json(compact('status', 'message'), 201);
-        }
+        $bid->save();
+        return  $this->formatResponse('success','bid submitted successfully');
     }
 }
