@@ -54,6 +54,9 @@ class Product extends Model
         }
         return null;
     }
+    public function size(){
+        return $this->belongsTo(ProductSize::class,'size_id');
+    }
     public function favourited(){
         $result=false;
         $fav=ProductFavourite::where('product_id',$this->id)->where('user_id',auth()->user()->id)->first();
