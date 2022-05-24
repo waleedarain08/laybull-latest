@@ -66,7 +66,7 @@ class OfferController extends Controller
                 ->first();
             $bid->setAttribute('product', $product);
         }
-        return($bids);
+        return $this->formatResponse('success','received offer get successfully',$bids);
 
 
 
