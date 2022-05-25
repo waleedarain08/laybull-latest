@@ -230,28 +230,28 @@ class ProductController extends Controller
             $product = Product::with('size')
                 ->select('id','featured_image','name','condition','size_id','price','category_id')
                 ->where('release',1)
-                ->simplePaginate(15);
+                ->simplePaginate(5);
             return $this->formatResponse('success','product get successfully',$product);
         }
         if ($request->type == 'popular_product'){
             $product = Product::with('size')
                 ->select('id','featured_image','name','condition','size_id','price','category_id')
                 ->where('popular',1)
-                ->simplePaginate(15);
+                ->simplePaginate(5);
             return $this->formatResponse('success','product get successfully',$product);
         }
         if ($request->type == 'recently_listed'){
             $product = Product::with('size')
                 ->select('id','featured_image','name','condition','size_id','price','category_id')
                 ->latest()
-                ->simplePaginate(15);
+                ->simplePaginate(5);
             return $this->formatResponse('success','product get successfully',$product);
         }
         if ($request->type == 'laybull_pick'){
             $product = Product::with('size')
                 ->select('id','featured_image','name','condition','size_id','price','category_id')
                 ->where('featured',1)
-                ->simplePaginate(15);
+                ->simplePaginate(5);
             return $this->formatResponse('success','product get successfully',$product);
         }
     }
