@@ -57,7 +57,7 @@ class OfferController extends Controller
 //        dd(Auth::user()->id);
         $bids = ProductBid::where(function ($query) {
             $query->where('vendor_id', Auth::id())
-             ->where('counter', '=', NULL);
+             ->where('counter', '=', NULL)->where('status','pending');
         })->get();
 //        return  $bids;
         foreach ($bids as $bid) {
@@ -103,5 +103,17 @@ class OfferController extends Controller
         $bid->counter = $request->counter;
         $bid->save();
         return  $this->formatResponse('success','bid submitted successfully');
+    }
+    public function acceptOffer($id){
+        $bid = ProductBid::findOrFail($id);
+        $bid->status = 'accept';
+        $bid->save();
+        return  $this->formatResponse('success','offer accepted successfully');
+    }
+    public function rejectOffer($id){
+        $bid = ProductBid::findOrFail($id);
+        $bid->status = 'reject';
+        $bid->save();
+        return  $this->formatResponse('success','offer rejected successfully');
     }
 }
