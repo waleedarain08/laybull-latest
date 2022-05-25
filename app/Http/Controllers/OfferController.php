@@ -41,6 +41,7 @@ class OfferController extends Controller
         //                 $bid->setAttribute('product',$product);
         //             }
         //             array_push($bids1,$bids2);
+//        return $this->formatResponse('success','received offer get successfully',$bids);
         if ($bids) {
             $status = 'True';
             $message = 'You Complete Offers...';
@@ -64,6 +65,8 @@ class OfferController extends Controller
                 ->where('id', $bid->product_id)
                 ->where('available',1)
                 ->first();
+            $size = ProductSize::select('id','text')->find($product->size_id);
+            $bid->setAttribute('size', $size);
             $bid->setAttribute('product', $product);
         }
         return $this->formatResponse('success','received offer get successfully',$bids);
