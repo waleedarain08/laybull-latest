@@ -9,6 +9,7 @@ use App\Http\Resources\ProductBid as ResourcesProductBid;
 use App\Http\Resources\ProductBidCollection;
 use App\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductBidController extends Controller
 {
@@ -46,17 +47,17 @@ class ProductBidController extends Controller
      */
     public function store(Request $request)
     {
-//        dd("here");
+//        dd($request->all());
         $product=Product::find($request->product_id);
 //        return $product;
-        $check=ProductBid::where('product_id',$request->product_id)->max('price');
+        $check=ProductBid::where([
+            'product_id'=>$request->product_id,
+            'user_id'=>Auth::id()])->first();
         if($check!=null){
-            if($check > $request->price){
-                return response()->json([
-                    'success'=>false,
-                    'message'=>'Highest Bid is: '.$check.'. Please place a higher bid'
-                ],404);
-            }
+            $productbid = ProductBid::find($check->id);
+            $productbid->price = $request->price;
+            $productbid->save();
+            return new ResourcesProductBid($productbid);
 
         }
         $productbid = ProductBid::create([
@@ -68,6 +69,7 @@ class ProductBidController extends Controller
         ]);
         return new ResourcesProductBid($productbid);
     }
+
 
     /**
      * Display the specified resource.
