@@ -479,7 +479,7 @@ class UserController extends Controller
 
 
                 $status = 'True';
-                $message = 'User Detail.';
+                $message = 'You Have Become a Seller';
                 $user=User::find(Auth::id());
 
                 return response()->json(compact('status', 'message', 'user'), 200);
