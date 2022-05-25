@@ -57,6 +57,9 @@ Route::middleware('auth:api')->group(function () {
     Route::post('counterBid', 'OfferController@bid_counter');
 
     Route::post('all-product','API\ProductController@allProduct');
+
+    Route::post('follow',[\App\Http\Controllers\FollowController::class,'follow']);
+    Route::post('un-follow',[\App\Http\Controllers\FollowController::class,'unFollow']);
 });
 
 Route::get('/email/verify/{id}/{hash}', 'API\UserController@verify')->name('verification.verify');
