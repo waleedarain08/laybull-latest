@@ -44,7 +44,7 @@ class User extends JsonResource
             'account_holder_name' => $this->account_name,
             'bank_name' => $this->bank_name,
             'followers' => $no_of_follower,
-            'followeings' => $no_of_following,
+            'followings' => $no_of_following,
             'is_follow' => $is_follow,
             'products' => Product::collection($this->whenLoaded('products')),
         ];
