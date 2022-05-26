@@ -116,4 +116,8 @@ class OfferController extends Controller
         $bid->save();
         return  $this->formatResponse('success','offer rejected successfully');
     }
+    public function deleteBit(ProductBid $productBid){
+        $productBid->delete();
+        return  $this->formatResponse('success','offer deleted successfully');
+    }
 }

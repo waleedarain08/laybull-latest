@@ -53,6 +53,7 @@ Route::middleware('auth:api')->group(function () {
 
     Route::get('accept-offer/{id}','OfferController@acceptOffer');
     Route::get('reject-offer/{id}','OfferController@rejectOffer');
+    Route::delete('delete-bit/{productBid}','OfferController@deleteBit');
 
     Route::post('counterBid', 'OfferController@bid_counter');
 
