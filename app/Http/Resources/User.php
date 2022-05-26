@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Follow;
+use App\Ratting;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Auth;
 
@@ -28,6 +29,8 @@ class User extends JsonResource
         $image_url = $this->profile_picture ?  '' . $this->profile_picture : "";
         $no_of_following = Follow::where('user_id', $request->user_id)->count();
         $no_of_follower = Follow::where('follow_id', $request->user_id)->count();
+        $ratting = Ratting::where('ratting_user_id',$request->user_id)->avg('ratting');
+        $ratting_count = Ratting::where('ratting_user_id',$request->user_id)->count();
 
         return [
             'id' => $this->id,
@@ -47,6 +50,8 @@ class User extends JsonResource
             'followings' => $no_of_following,
             'is_follow' => $is_follow,
             'products' => Product::collection($this->whenLoaded('products')),
+            'ratting'=>$ratting,
+            'ratting_count'=>$ratting_count,
         ];
     }
 }

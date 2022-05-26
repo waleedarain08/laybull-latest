@@ -276,6 +276,8 @@ class UserController extends Controller
             $data['user'] = User::where('id',Auth::id())->with('products')->first();
             $data['user']['followers'] =Follow::where('user_id', Auth::id())->count();
             $data['user']['followings'] =  Follow::where('follow_id', Auth::id())->count();
+            $data['user']['ratting'] =  Ratting::where('ratting_user_id',Auth::id())->avg('ratting');
+            $data['user']['ratting_count'] =  Ratting::where('ratting_user_id',Auth::id())->count();
 
 
 ////            return($data['user']['id']);
