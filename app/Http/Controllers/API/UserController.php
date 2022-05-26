@@ -17,6 +17,7 @@ use App\Http\Resources\EventFavouriteCollection;
 use App\Http\Resources\EventGoingCollection;
 use App\Http\Resources\EventLikeCollection;
 use App\Product;
+use App\Ratting;
 use App\User;
 use App\Http\Resources\User as ResourcesUser;
 use App\Http\Resources\UserCollection;
@@ -494,4 +495,26 @@ class UserController extends Controller
             }
         }
     }
+    public function ratting(Request $request){
+        $validator = Validator::make($request->all(), [
+            'ratting_user_id' => 'required',
+            'ratting' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return $this->formatResponse('error', 'validation error', $validator->errors());
+        }
+        $check = Ratting::where('user_id',Auth::id())->where('ratting_user_id',$request->ratting_user_id)->first();
+        if ($check){
+            $check->ratting = $request->ratting;
+            $check->save();
+            return $this->formatResponse('success', 'ratting updated successfully');
+        }
+        $ratting = new Ratting();
+        $ratting->user_id = Auth::id();
+        $ratting->ratting_user_id = $request->ratting_user_id;
+        $ratting->ratting = $request->ratting;
+        $ratting->save();
+        return $this->formatResponse('success', 'ratting added successfully');
+    }
+
 }
