@@ -9,6 +9,7 @@ use App\Event;
 use App\EventFavourite;
 use App\EventGoing;
 use App\EventLike;
+use App\Follow;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CityCollection;
 use App\Http\Resources\CountryCollection;
@@ -272,6 +273,10 @@ class UserController extends Controller
             $data['accessToken'] = auth()->user()->createToken('authToken')->accessToken;
 //            $data['user'] = Auth::user();
             $data['user'] = User::where('id',Auth::id())->with('products')->first();
+            $data['user']['followers'] =Follow::where('user_id', Auth::id())->count();
+            $data['user']['followings'] =  Follow::where('follow_id', Auth::id())->count();
+
+
 ////            return($data['user']['id']);
 //            $data['user']['selling_products'] = Product::where([
 //            ['user_id','=',$data['user']['id']],
