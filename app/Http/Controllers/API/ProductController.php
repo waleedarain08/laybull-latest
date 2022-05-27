@@ -195,9 +195,7 @@ class ProductController extends Controller
     {
         $product = Product::find($id);
         $product->delete();
-        return response()->json([
-            'success' => true
-        ]);
+        return $this->formatResponse('success','product deleted successfully');
     }
     public function favouriteproducts(){
         $favouriteproducts=ProductFavourite::where('user_id',auth()->user()->id)->pluck('product_id');
@@ -255,5 +253,6 @@ class ProductController extends Controller
             return $this->formatResponse('success','product get successfully',$product);
         }
     }
+
 
 }
