@@ -309,8 +309,11 @@ class ProductController extends Controller
             $products = $products->whereBetween('price', [$min, $max]);
         }
 
-        return $products = $products->with('size')->get();
-
+         $products = $products->with('size')->get();
+        if ($products)
+            return  $this->formatResponse('success','product search successfully',$products);
+        else
+            return  $this->formatResponse('error','no product found');
         if (count($products)) {
             $status = 'True';
             $message = 'Product Find SuccessFully...';
