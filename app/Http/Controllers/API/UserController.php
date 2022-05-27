@@ -461,7 +461,8 @@ class UserController extends Controller
 
     public function countries()
     {
-        $countries = Country::all();
+        $countries = Country::where('id',231)->get();
+//        return($countries);
         return new CountryCollection($countries);
     }
     public function post_seller_account_details(Request $request)
