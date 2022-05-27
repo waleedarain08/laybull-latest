@@ -4,7 +4,7 @@
     <section class="content">
         <div class="card card-primary">
             <h2 class="text-black-50 mt-2 ml-3"> Create Category</h2>
-            @if()
+{{--            @if()--}}
             <form method="POST" action="{{route('category.store')}}" enctype="multipart/form-data">
                 @csrf
                 <div class="card-body">
