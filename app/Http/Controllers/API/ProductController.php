@@ -253,6 +253,25 @@ class ProductController extends Controller
             return $this->formatResponse('success','product get successfully',$product);
         }
     }
+    public function searchProduct(Request $request){
+        $validator = Validator::make($request->all(), [
+            'search' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()->first()], 401);
+        }
+
+        $products = Product::select('id','featured_image','name','size_id','condition','price')
+            ->with( 'size')
+            ->where('name', 'LIKE',  "%{$request->search}%")
+            ->where('sold',0)
+            ->get();
+        if ($products)
+            return  $this->formatResponse('success','product search successfully',$products);
+        else
+            return  $this->formatResponse('error','no product found');
+    }
 
 
 }

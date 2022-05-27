@@ -33,6 +33,7 @@ Route::middleware('auth:api')->group(function () {
 
     Route::post('seller_account_details', 'API\UserController@post_seller_account_details');
 
+    Route::get('searchProduct', 'API\ProductController@searchProduct');
 
     Route::get('beercard', 'API\OrderController@beercard')->name('beercard');
     Route::get('resetbeercard', 'API\OrderController@resetbeercard')->name('resetbeercard');
