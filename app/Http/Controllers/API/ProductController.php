@@ -272,6 +272,55 @@ class ProductController extends Controller
         else
             return  $this->formatResponse('error','no product found');
     }
+    public function searchFilter(Request $request){
+        $products = Product::select('id','featured_image','name','size_id','condition','price')->where('sold', 0);
+         request('category_id');
+        if (!empty(request('category_id'))) {
+            $products = $products->whereHas('category', function ($q) use($request) {
+                 $q->where('id', $request->category_id);
+            });
+        }
+
+        if (!empty(request('brand_id'))) {
+            $products = $products->whereHas('brand', function ($q) use($request) {
+                $q->where('id', $request->brand_id);
+            });
+        }
+
+        if (!empty(request('size_id'))) {
+            $products = $products->whereHas('size', function ($q) use($request) {
+                $q->where('id', $request->size_id);
+            });
+        }
+
+        if (!empty(request('color'))) {
+            $products = $products->where('color', $request->color);
+        }
+
+
+        if (!empty(request('max_price'))) {
+            if (!empty(request('min_price'))) {
+                $min = (int)$request->min_price;
+            } else {
+                $min = (int)0;
+            }
+            $max = (int)$request->max_price;
+
+            $products = $products->whereBetween('price', [$min, $max]);
+        }
+
+        return $products = $products->with('size')->get();
+
+        if (count($products)) {
+            $status = 'True';
+            $message = 'Product Find SuccessFully...';
+            return response()->json(compact('status', 'message', 'products'), 201);
+        } else {
+            $status = 'False';
+            $message = 'No Product Found';
+            return response()->json(compact('status', 'message'), 201);
+        }
+    }
 
 
 }
