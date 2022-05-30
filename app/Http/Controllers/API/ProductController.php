@@ -263,7 +263,7 @@ class ProductController extends Controller
             return response()->json(['error' => $validator->errors()->first()], 401);
         }
 
-        $products = Product::select('id','featured_image','name','size_id','condition','price')
+        $products = Product::select('id','featured_image','category_id','name','size_id','condition','price')
             ->with( 'size','category')
             ->where('name', 'LIKE',  "%{$request->search}%")
             ->where('sold',0)
@@ -274,7 +274,7 @@ class ProductController extends Controller
             return  $this->formatResponse('error','no product found');
     }
     public function searchFilter(Request $request){
-        $products = Product::select('id','featured_image','name','size_id','condition','price')->where('sold', 0);
+        $products = Product::select('id','featured_image','name','size_id','category_id','condition','price')->where('sold', 0);
          request('category_id');
         if (!empty(request('category_id'))) {
             $products = $products->whereHas('category', function ($q) use($request) {
