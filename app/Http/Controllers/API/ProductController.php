@@ -179,6 +179,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
+        dd($request->all());
         $product = Product::find($id);
         $product->update($request->all());
         $product = Product::find($id);
@@ -263,7 +264,7 @@ class ProductController extends Controller
         }
 
         $products = Product::select('id','featured_image','name','size_id','condition','price')
-            ->with( 'size')
+            ->with( 'size','category')
             ->where('name', 'LIKE',  "%{$request->search}%")
             ->where('sold',0)
             ->get();
@@ -309,7 +310,7 @@ class ProductController extends Controller
             $products = $products->whereBetween('price', [$min, $max]);
         }
 
-         $products = $products->with('size')->get();
+         $products = $products->with('size','category')->get();
         if ($products)
             return  $this->formatResponse('success','product search successfully',$products);
         else
