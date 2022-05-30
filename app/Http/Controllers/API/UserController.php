@@ -107,7 +107,7 @@ class UserController extends Controller
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'localhost/laybull2/public/api/email/resend',
+            CURLOPT_URL => 'https://laybulldxb.com/laybull2/laybull/public/api/email/resend',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
