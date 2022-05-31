@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Product extends Model
 {
@@ -58,11 +59,17 @@ class Product extends Model
         return $this->belongsTo(ProductSize::class,'size_id');
     }
     public function favourited(){
-        $result=false;
-        $fav=ProductFavourite::where('product_id',$this->id)->where('user_id',auth()->user()->id)->first();
-        if($fav!=null){
-            $result=true;
+        if (Auth::check()){
+            $result=false;
+            $fav=ProductFavourite::where('product_id',$this->id)->where('user_id',auth()->user()->id)->first();
+            if($fav!=null){
+                $result=true;
+            }
+            return $result;
         }
-        return $result;
+        else{
+            return true;
+        }
+
     }
 }
