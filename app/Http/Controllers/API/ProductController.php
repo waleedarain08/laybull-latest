@@ -59,16 +59,16 @@ class ProductController extends Controller
         $latest=Product::orderBy('id','desc')->limit(10)->get();
         $release=Product::where('release',1)->limit(10)->get();
         $popular=Product::where('popular',1)->limit(10)->get();
-        return $categories=Category::all();
+//        return $categories=Category::all();
 //        return $laybull_picks;
          $laybull_picks=new ProductCollection($laybull_picks);
          $latest = new ProductCollection($latest);
          $release = new ProductCollection($release);
         $popular = new ProductCollection($popular);
 
-        $categories=new CategoryCollection($categories);
+//        $categories=new CategoryCollection($categories);
         return [
-            'categories'=>$categories,
+//            'categories'=>$categories,
             'laybull_picks'=>$laybull_picks,
             'latest'=>$latest,
             'release'=>$release,
