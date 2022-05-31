@@ -55,7 +55,6 @@ class ProductController extends Controller
         return $this->formatResponse('success','currency get successfully',$currency);
     }
     public function homeproducts(){
-        dd("here");
         $laybull_picks=Product::where('featured',1)->limit(10)->get();
         $latest=Product::orderBy('id','desc')->limit(10)->get();
         $release=Product::where('release',1)->limit(10)->get();
@@ -67,10 +66,9 @@ class ProductController extends Controller
          $release = new ProductCollection($release);
         $popular = new ProductCollection($popular);
 
-
         $categories=new CategoryCollection($categories);
 
-
+        dd("here");
         return response()->json([
             'categories'=>$categories,
             'laybull_picks'=>$laybull_picks,
