@@ -14,9 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('currency', 'API\ProductController@currencyGet');
+Route::get('homeproducts', 'API\ProductController@homeproducts')->name('homeproducts');
 Route::middleware('auth:api')->group(function () {
 
-    Route::get('homeproducts', 'API\ProductController@homeproducts')->name('homeproducts');
+
     Route::resource('users', 'API\UserController');
     Route::resource('products', 'API\ProductController');
     Route::resource('brands', 'API\BrandController');
