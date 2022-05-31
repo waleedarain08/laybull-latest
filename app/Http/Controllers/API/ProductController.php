@@ -67,8 +67,7 @@ class ProductController extends Controller
         $popular = new ProductCollection($popular);
 
         $categories=new CategoryCollection($categories);
-
-        dd("here");
+        
         return response()->json([
             'categories'=>$categories,
             'laybull_picks'=>$laybull_picks,
