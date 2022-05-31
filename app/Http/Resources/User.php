@@ -17,14 +17,16 @@ class User extends JsonResource
      */
     public function toArray($request)
     {
-
+        $is_follow = false;
         $request->user_id;
+        if (Auth::check()){
         $check=Follow::where('follow_id', $request->user_id)->where('user_id', Auth::user()->id)->first();
         if ($check){
             $is_follow = true;
         }
         else{
             $is_follow = false;
+        }
         }
         $image_url = $this->profile_picture ?  '' . $this->profile_picture : "";
         $no_of_following = Follow::where('user_id', $request->user_id)->count();
