@@ -16,12 +16,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('currency', 'API\ProductController@currencyGet');
 Route::get('homeproducts', 'API\ProductController@homeproducts')->name('homeproducts');
 Route::get('slider','\App\Http\Controllers\SliderController@apiSlider');
-Route::resource('products', 'API\ProductController');
+Route::get('products/{id}', 'API\ProductController@show');
 Route::middleware('auth:api')->group(function () {
 
 
     Route::resource('users', 'API\UserController');
-
+    Route::resource('products', 'API\ProductController');
     Route::resource('brands', 'API\BrandController');
     Route::resource('categories', 'API\CategoryController');
     Route::resource('productbids', 'API\ProductBidController');
