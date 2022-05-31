@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('currency', 'API\ProductController@currencyGet');
 Route::middleware('auth:api')->group(function () {
 
+    Route::get('homeproducts', 'API\ProductController@homeproducts')->name('homeproducts');
     Route::resource('users', 'API\UserController');
     Route::resource('products', 'API\ProductController');
     Route::resource('brands', 'API\BrandController');
@@ -47,7 +48,6 @@ Route::middleware('auth:api')->group(function () {
     Route::post('notificationtoggle', 'API\UserController@notificationtoggle')->name('users.notificationtoggle');
 
     Route::post('profilepicture', 'API\UserController@profilepicture')->name('users.profilepicture');
-    Route::get('homeproducts', 'API\ProductController@homeproducts')->name('homeproducts');
     Route::get('email/resend', 'API\UserController@resend')->name('email.resend');
 
     Route::get('getSendOffersList', 'OfferController@offers');
