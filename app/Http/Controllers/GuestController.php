@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Http\Resources\CategoryCollection;
+use App\Http\Resources\Product as ResourcesProduct;
 use App\Http\Resources\ProductCollection;
 use App\Product;
 use Illuminate\Http\Request;
@@ -35,9 +36,16 @@ class GuestController extends Controller
             'popular'=>$popular,
         ]);
     }
-    public function product()
+    public function product($id)
     {
-        dd('Product detail');
+         $product = Product::with('images')->find($id);
+        if ($product){
+
+            return new ResourcesProduct($product);
+        }
+        else{
+            "no product fond";
+        }
     }
     public function allProducts()
     {
