@@ -68,7 +68,7 @@ class Product extends Model
             return $result;
         }
         else{
-            return true;
+            return false;
         }
 
     }
