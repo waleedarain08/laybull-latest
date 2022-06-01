@@ -19,6 +19,8 @@ Route::get('slider','\App\Http\Controllers\SliderController@apiSlider');
 Route::get('guest-home-product','GuestController@homeProduct');
 Route::get('guest-product/{id}','GuestController@product');
 Route::post('guest-product-all','GuestController@allProducts');
+Route::get('searchProduct', 'API\ProductController@searchProduct');
+Route::get('search-filter', 'API\ProductController@searchFilter');
 Route::middleware('auth:api')->group(function () {
 
 
@@ -41,8 +43,7 @@ Route::middleware('auth:api')->group(function () {
 
     Route::post('seller_account_details', 'API\UserController@post_seller_account_details');
 
-    Route::get('searchProduct', 'API\ProductController@searchProduct');
-    Route::get('search-filter', 'API\ProductController@searchFilter');
+
 
     Route::get('beercard', 'API\OrderController@beercard')->name('beercard');
     Route::get('resetbeercard', 'API\OrderController@resetbeercard')->name('resetbeercard');
