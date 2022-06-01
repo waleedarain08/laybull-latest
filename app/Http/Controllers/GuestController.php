@@ -8,6 +8,7 @@ use App\Http\Resources\Product as ResourcesProduct;
 use App\Http\Resources\ProductCollection;
 use App\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class GuestController extends Controller
 {
@@ -47,8 +48,41 @@ class GuestController extends Controller
             "no product fond";
         }
     }
-    public function allProducts()
+    public function allProducts(Request $request)
     {
-        dd('view all');
+        $validator = Validator::make($request->all(), [
+            'type' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return $this->formatResponse('error', 'validation error', $validator->errors()->first(), 403);
+        }
+        if ($request->type == 'release_calendar'){
+            $product = Product::with('size')
+                ->select('id','featured_image','name','condition','size_id','price','category_id')
+                ->where('release',1)
+                ->simplePaginate(5);
+            return $this->formatResponse('success','product get successfully',$product);
+        }
+        if ($request->type == 'popular_product'){
+            $product = Product::with('size')
+                ->select('id','featured_image','name','condition','size_id','price','category_id')
+                ->where('popular',1)
+                ->simplePaginate(5);
+            return $this->formatResponse('success','product get successfully',$product);
+        }
+        if ($request->type == 'recently_listed'){
+            $product = Product::with('size')
+                ->select('id','featured_image','name','condition','size_id','price','category_id')
+                ->latest()
+                ->simplePaginate(5);
+            return $this->formatResponse('success','product get successfully',$product);
+        }
+        if ($request->type == 'laybull_pick'){
+            $product = Product::with('size')
+                ->select('id','featured_image','name','condition','size_id','price','category_id')
+                ->where('featured',1)
+                ->simplePaginate(5);
+            return $this->formatResponse('success','product get successfully',$product);
+        }
     }
 }
