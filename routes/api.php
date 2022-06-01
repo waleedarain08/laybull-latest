@@ -21,6 +21,7 @@ Route::get('guest-product/{id}','GuestController@product');
 Route::post('guest-product-all','GuestController@allProducts');
 Route::get('searchProduct', 'API\ProductController@searchProduct');
 Route::get('search-filter', 'API\ProductController@searchFilter');
+Route::get('brand_category', 'API\ProductController@brandCategory');
 Route::middleware('auth:api')->group(function () {
 
 
@@ -39,7 +40,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('favouriteproducts', 'API\ProductController@favouriteproducts')->name('favouriteproducts');
 
     Route::get('productsizes/{id}', 'API\ProductController@productsizes');
-    Route::get('brand_category', 'API\ProductController@brandCategory');
+
 
     Route::post('seller_account_details', 'API\UserController@post_seller_account_details');
 
