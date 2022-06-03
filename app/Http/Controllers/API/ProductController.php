@@ -348,8 +348,9 @@ class ProductController extends Controller
         if ($request->hasFile('change_image')){
 
             foreach ($request->file('change_image') as $images){
-                dd($request->file('change_image'));
+//                dd($request->file('change_image'));
                 $count = 0;
+                dd($request->image_id[$count]);
 //                $file = $request->file('change_image');
                 $productImg = Str::random(20). '.' . $images->getClientOriginalExtension();
                 Storage::disk('public_product')->put($productImg, \File::get($images));
