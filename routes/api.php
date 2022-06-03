@@ -23,13 +23,13 @@ Route::get('searchProduct', 'API\ProductController@searchProduct');
 Route::get('search-filter', 'API\ProductController@searchFilter');
 Route::get('brand_category', 'API\ProductController@brandCategory');
 Route::get('productsizes/{id}', 'API\ProductController@productsizes');
+Route::resource('categories', 'API\CategoryController');
 Route::middleware('auth:api')->group(function () {
 
 
     Route::resource('users', 'API\UserController');
     Route::resource('products', 'API\ProductController');
     Route::resource('brands', 'API\BrandController');
-    Route::resource('categories', 'API\CategoryController');
     Route::resource('productbids', 'API\ProductBidController');
     Route::resource('productfavs', 'API\ProductFavouriteController');
     Route::resource('orders', 'API\OrderController');
