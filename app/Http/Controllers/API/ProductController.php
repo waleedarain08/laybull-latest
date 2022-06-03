@@ -347,20 +347,19 @@ class ProductController extends Controller
         unset($images);
         if ($request->hasFile('change_image')){
 
-            foreach ($request->file('change_image') as $images){
+            foreach ($request->file('change_image') as $i=>$images){
 //                dd($request->file('change_image'));
-                $count = 0;
-                dd($request->image_id);
+
 //                $file = $request->file('change_image');
                 $productImg = Str::random(20). '.' . $images->getClientOriginalExtension();
                 Storage::disk('public_product')->put($productImg, \File::get($images));
                 $imgeurl = url('media/product/'.$productImg);
 
-                $new_images =  ProductImage::find($request->image_id[$count]);
+                $new_images =  ProductImage::find($request->image_id[$i]);
                 $new_images->product_id = $id;
                 $new_images->image =$imgeurl;
                 $new_images->save();
-                $count++;
+
             }
         }
         $product= Product::find($id);
