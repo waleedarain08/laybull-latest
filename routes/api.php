@@ -26,7 +26,7 @@ Route::get('productsizes/{id}', 'API\ProductController@productsizes');
 Route::resource('categories', 'API\CategoryController');
 Route::middleware('auth:api')->group(function () {
 
-
+    Route::post('product/{id}', 'API\ProductController@productUpdate');
     Route::resource('users', 'API\UserController');
     Route::resource('products', 'API\ProductController');
     Route::resource('brands', 'API\BrandController');
