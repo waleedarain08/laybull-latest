@@ -321,7 +321,7 @@ class ProductController extends Controller
             return response()->json(compact('status', 'message'), 201);
         }
     }
-    public function ProductController(Request $request,$id){
+    public function productUpdate(Request $request,$id){
         $product = Product::find($id);
 
         if ($request->hasFile('feature_image')) {
