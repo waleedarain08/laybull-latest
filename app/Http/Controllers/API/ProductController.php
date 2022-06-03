@@ -333,14 +333,16 @@ class ProductController extends Controller
             $product->save();
         }
         if ($request->hasFile('new_image')){
-            $file = $request->file('new_image');
-            $productImg = Str::random(20). '.' . $file->getClientOriginalExtension();
-            Storage::disk('public_product')->put($productImg, \File::get($file));
-            $imgeurl = url('media/product/'.$productImg);
-            $new_images = new ProductImage();
-            $new_images->product_id = $id;
-            $new_images->image =$imgeurl;
-            $new_images->save();
+            foreach ($request->file('new_image') as $images){
+                $productImg = Str::random(20). '.' . $images->getClientOriginalExtension();
+                Storage::disk('public_product')->put($productImg, \File::get($images));
+                $imgeurl = url('media/product/'.$productImg);
+                $new_images = new ProductImage();
+                $new_images->product_id = $id;
+                $new_images->image =$imgeurl;
+                $new_images->save();
+            }
+
         }
         if ($request->hasFile('change_image')){
 
