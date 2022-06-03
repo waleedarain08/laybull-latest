@@ -179,11 +179,52 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        dd($request->all());
         $product = Product::find($id);
-        $product->update($request->all());
-        $product = Product::find($id);
-        return new ResourcesProduct($product);
+
+        if ($request->hasFile('feature_image')) {
+            $file = $request->file('feature_image');
+            $productFeatureImg = Str::random(20). '.' . $file->getClientOriginalExtension();
+            Storage::disk('public_product')->put($productFeatureImg, \File::get($file));
+            $imgeurl = url('media/product/'.$productFeatureImg);
+            $product->featured_image = $imgeurl;
+            $product->save();
+        }
+        if ($request->hasFile('new_image')){
+            $file = $request->file('new_image');
+            $productImg = Str::random(20). '.' . $file->getClientOriginalExtension();
+            Storage::disk('public_product')->put($productImg, \File::get($file));
+            $imgeurl = url('media/product/'.$productImg);
+            $new_images = new ProductImage();
+            $new_images->product_id = $id;
+            $new_images->image =$imgeurl;
+            $new_images->save();
+        }
+        if ($request->hasFile('change_image')){
+
+            foreach ($request->image_id as $id){
+                $file = $request->file('change_image');
+                $productImg = Str::random(20). '.' . $file->getClientOriginalExtension();
+                Storage::disk('public_product')->put($productImg, \File::get($file));
+                $imgeurl = url('media/product/'.$productImg);
+
+                $new_images =  ProductImage::find($id);
+                $new_images->product_id = $id;
+                $new_images->image =$imgeurl;
+                $new_images->save();
+            }
+        }
+        $product= Product::find($id);
+        $product->category_id = $request->category_id;
+        $product->brand_id = $request->brand_id;
+        $product->name = $request->name;
+        $product->description = $request->description;
+        $product->color = $request->color;
+        $product->price = $request->price;
+        $product->condition = $request->condition;
+        $product->size_id = $request->size_id;
+        $product->save();
+        
+      return $this->formatResponse('success','user-data');
     }
 
     /**
