@@ -347,9 +347,9 @@ class ProductController extends Controller
         if ($request->hasFile('change_image')){
 
             foreach ($request->image_id as $image_id){
-                $file = $request->file('change_image');
-                $productImg = Str::random(20). '.' . $file->getClientOriginalExtension();
-                Storage::disk('public_product')->put($productImg, \File::get($file));
+//                $file = $request->file('change_image');
+                $productImg = Str::random(20). '.' . $image_id->getClientOriginalExtension();
+                Storage::disk('public_product')->put($productImg, \File::get($image_id));
                 $imgeurl = url('media/product/'.$productImg);
 
                 $new_images =  ProductImage::find($image_id);
