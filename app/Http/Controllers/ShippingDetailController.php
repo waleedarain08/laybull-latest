@@ -16,7 +16,8 @@ class ShippingDetailController extends Controller
      */
     public function index()
     {
-        //
+        $shippingDetail = ShippingDetail::where('user_id',Auth::id())->first();
+        return $this->formatResponse('success','data inserted successfully',$shippingDetail);
     }
 
     /**
