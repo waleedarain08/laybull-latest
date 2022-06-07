@@ -35,6 +35,7 @@ Route::middleware('auth:api')->group(function () {
     Route::resource('orders', 'API\OrderController');
     Route::resource('notifications', 'API\NotificationController');
     Route::resource('feedbacks', 'API\FeedbackController');
+    Route::resource('shipping-detail', 'ShippingDetailController');
 
     Route::get('homeproducts', 'API\ProductController@homeproducts')->name('homeproducts');
 
