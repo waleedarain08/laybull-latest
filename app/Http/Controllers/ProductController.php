@@ -14,7 +14,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::latest()->get();
+        $products = Product::latest()->paginate('25');
         return view('admin.product.product',get_defined_vars());
     }
 
@@ -72,11 +72,11 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-//        return $request->all();
        $product = Product::find($id);
 
         $product->popular = $request->popular ;
         $product->release = $request->laybull_release ;
+        $product->release_date = $request->release_date ;
         $product->featured =$request->laybull_pick;
        $product->save();
         return redirect()->route('product.index');
