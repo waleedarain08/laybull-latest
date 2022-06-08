@@ -48,15 +48,25 @@ class ShippingDetailController extends Controller
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()->first()], 400);
         }
-        $shipmentDetail = new ShippingDetail();
-        $shipmentDetail->address = $request->address ;
-        $shipmentDetail->city = $request->city ;
-        $shipmentDetail->country = $request->country ;
-        $shipmentDetail->phone_number = $request->phone_number ;
-        $shipmentDetail->user_id = Auth::id();
-        $shipmentDetail->save();
-        return $this->formatResponse('success','data inserted successfully');
-
+        $shipmentDetail = ShippingDetail::where('user_id',Auth::id())->first();
+        if ($shipmentDetail){
+            $shipmentDetail->address = $request->address ;
+            $shipmentDetail->city = $request->city ;
+            $shipmentDetail->country = $request->country ;
+            $shipmentDetail->phone_number = $request->phone_number ;
+            $shipmentDetail->save();
+            return $this->formatResponse('success','data updated successfully');
+        }
+        else{
+            $shipmentDetail = new ShippingDetail();
+            $shipmentDetail->address = $request->address ;
+            $shipmentDetail->city = $request->city ;
+            $shipmentDetail->country = $request->country ;
+            $shipmentDetail->phone_number = $request->phone_number ;
+            $shipmentDetail->user_id = Auth::id();
+            $shipmentDetail->save();
+            return $this->formatResponse('success','data inserted successfully');
+        }
     }
 
     /**
