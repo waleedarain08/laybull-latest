@@ -29,6 +29,7 @@ class Product extends JsonResource
         'discount'=>$this->discount,
         'sold'=>$this->sold,
         'favourite'=>$this->favourited(),
+        'release_date'=>$this->release_date,
         'featured_image'=>$this->featured_image,
         'user'=>new User($this->user),
         'highest_bid'=>$this->highest_bid(),
