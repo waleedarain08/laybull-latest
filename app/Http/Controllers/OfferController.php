@@ -14,7 +14,8 @@ class OfferController extends Controller
 {
     public function offers(){
         $bids = ProductBid::where(function ($query) {
-            $query->where('user_id', Auth::user()->id)->where('counter', NULL);
+            $query->where('user_id', Auth::user()->id)
+                ->where('counter', NULL);
         })->orwhere(function ($query) {
             $query->where('vendor_id', Auth::id())
                 ->where('counter', '!=', NULL);
@@ -57,12 +58,16 @@ class OfferController extends Controller
 //        dd(Auth::user()->id);
         $bids = ProductBid::where(function ($query) {
             $query->where('vendor_id', Auth::id())
-             ->where('counter', '=', NULL)->where('status','pending');
+             ->where('counter', '=', NULL)
+             ->where('status','pending');
+        })->orwhere(function ($query) {
+            $query->where('user_id', Auth::id())
+                  ->where('counter', '!=', NULL);
         })->get();
 //        return  $bids;
         foreach ($bids as $bid) {
             $product = Product::select('id','user_id','name','condition','featured_image','sold','size_id')
-                ->where('id', $bid->product_id)
+                    ->where('id', $bid->product_id)
                 ->where('available',1)
                 ->first();
             $size = ProductSize::select('id','text')->find($product->size_id);
