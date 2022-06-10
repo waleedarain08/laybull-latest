@@ -41,7 +41,8 @@ Route::middleware('auth:api')->group(function () {
 
     Route::get('favouriteproducts', 'API\ProductController@favouriteproducts')->name('favouriteproducts');
 
-
+//    payment api
+    Route::post('payment-process', 'PaymentController@payment');
 
 
     Route::post('seller_account_details', 'API\UserController@post_seller_account_details');
