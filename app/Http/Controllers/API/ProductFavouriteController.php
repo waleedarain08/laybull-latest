@@ -43,7 +43,7 @@ class ProductFavouriteController extends Controller
 
         $productfavourite = ProductFavourite::updateOrCreate($request->all()+['user_id'=>auth()->user()->id]);
 //        return $productfavourite;
-        return $this->formatResponse('success','Item has been added into favourite');
+        return $this->formatResponse('success','Item added to My Favorites');
     }
 
     /**
@@ -94,6 +94,6 @@ class ProductFavouriteController extends Controller
     {
         $productfavourite = ProductFavourite::where('product_id',$id);
         $productfavourite->delete();
-        return $this->formatResponse('success','Item has been remove from favourite');
+        return $this->formatResponse('success','Item removed from My Favourites');
     }
 }
