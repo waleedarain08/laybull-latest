@@ -36,9 +36,17 @@ Route::group(['middleware' => ['auth','admin']], function () {
 
     Route::get('/home', 'HomeController@index')->name('home');
     Route::resource('product','\App\Http\Controllers\ProductController');
+    Route::resource('vendor','\App\Http\Controllers\ProductController');
     Route::resource('slider','\App\Http\Controllers\SliderController');
     Route::resource('category','\App\Http\Controllers\CategoryController');
     Route::resource('brand','\App\Http\Controllers\BrandController');
+
+    Route::resource('notification','\App\Http\Controllers\NotificationController');
+
     Route::post('product-reject/{id}','\App\Http\Controllers\ProductController@rejectProduct')->name('product-reject');
     Route::get('product-approve/{id}','\App\Http\Controllers\ProductController@approveProduct')->name('product-approve');
+
+    Route::get('vendor','\App\Http\Controllers\VendorController@index')->name('vendor');
+    Route::get('vendor-verified/{id}','\App\Http\Controllers\VendorController@vendorVerified')->name('vendor-verified');
+    Route::get('vendor-unverified/{id}','\App\Http\Controllers\VendorController@vendorUnverified')->name('vendor-unverified');
 });
