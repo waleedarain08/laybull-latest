@@ -201,7 +201,7 @@ class ProductController extends Controller
     }
     public function productsizes($id)
     {
-        $sizes = ProductSize::pluck('text');
+        $sizes = ProductSize::OrderBy('order_by')->pluck('text');
         if (isset($id)) {
             $sizes = ProductSize::select('id','text')->where('category_id', $id)->get();
         }
