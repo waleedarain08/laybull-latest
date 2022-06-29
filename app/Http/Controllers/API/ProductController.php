@@ -203,7 +203,10 @@ class ProductController extends Controller
     {
         $sizes = ProductSize::OrderBy('order_by')->pluck('text');
         if (isset($id)) {
-            $sizes = ProductSize::select('id','text')->where('category_id', $id)->get();
+            $sizes = ProductSize::select('id','text')
+                ->orderBy('order_by')
+                ->where('category_id', $id)
+                ->get();
         }
         return response()->json([
             'data' => $sizes
