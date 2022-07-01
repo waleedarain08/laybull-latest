@@ -77,7 +77,7 @@
     <!-- Left side column. contains the logo and sidebar -->
 @if(\Illuminate\Support\Facades\Auth::check())
     @if(\Illuminate\Support\Facades\Auth::user()->name == 'admin' )
-        @include('layouts.sidebar')
+        @include('admin.layouts.sidebar')
     @endif
 @else
 
