@@ -71,15 +71,15 @@
     </a>
 </li>
 <li class="nav-item">
-    <a href="{{route('slider.index')}}" class="nav-link  ">
+    <a href="{{route('notification.index')}}" class="nav-link  ">
         <i class="nav-icon fa fa-bullhorn"></i>
         <p>Notification</p>
     </a>
 </li>
-{{--<li class="nav-item">--}}
-{{--    <a href="" class="nav-link  ">--}}
-{{--        <i class="nav-icon fa fa-th-list"></i>--}}
-{{--        <p>Items</p>--}}
-{{--    </a>--}}
-{{--</li>--}}
+<li class="nav-item">
+    <a href="{{route('discount.index')}}" class="nav-link  ">
+        <i class="nav-icon fa fa-th-list"></i>
+        <p>Discount</p>
+    </a>
+</li>
 /

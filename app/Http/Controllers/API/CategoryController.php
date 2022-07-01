@@ -18,7 +18,7 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
-        $categories = Category::all();
+        $categories = Category::orderBy('order_by')->get();
         return new CategoryCollection($categories);
     }
 

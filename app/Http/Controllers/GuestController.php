@@ -18,7 +18,7 @@ class GuestController extends Controller
         $latest=Product::orderBy('id','desc')->limit(10)->get();
         $release=Product::where('release',1)->limit(10)->get();
         $popular=Product::where('popular',1)->limit(10)->get();
-        $categories=Category::all();
+        $categories=Category::orderBy('order_by')->get();
 //        return $laybull_picks;
         $laybull_picks=new ProductCollection($laybull_picks);
         $latest = new ProductCollection($latest);
