@@ -214,7 +214,7 @@ class ProductController extends Controller
     }
     public function brandCategory(){
         $data['brand']=Brand::select('id','name','image')->latest()->get();
-        $data['category']=Category::select('id','name')->latest()->get();
+        $data['category']=Category::select('id','name')->orderBy('order_by')->get();
         return $this->formatResponse('success','data get successful',$data);
     }
     public function allProduct(Request $request){
