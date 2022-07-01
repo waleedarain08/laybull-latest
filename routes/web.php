@@ -42,6 +42,8 @@ Route::group(['middleware' => ['auth','admin']], function () {
     Route::resource('brand','\App\Http\Controllers\BrandController');
 
     Route::resource('notification','\App\Http\Controllers\NotificationController');
+    Route::resource('discount','\App\Http\Controllers\DiscountController');
+
 
     Route::post('product-reject/{id}','\App\Http\Controllers\ProductController@rejectProduct')->name('product-reject');
     Route::get('product-approve/{id}','\App\Http\Controllers\ProductController@approveProduct')->name('product-approve');
