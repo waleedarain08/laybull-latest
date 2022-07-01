@@ -42,6 +42,7 @@ class User extends JsonResource
             'city' => $this->city,
             'country' => $this->country,
             'phone_number' => $this->phone_number,
+            'verified_vendor' => $this->verified_vendor,
             'is_seller' => $this->is_seller,
             'profile_picture' => $image_url,
             'iban' => $this->iban,
