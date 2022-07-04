@@ -14,7 +14,7 @@ class NotificationController extends Controller
      */
     public function index()
     {
-        dd("here");
+        return view('admin.notification.create');
     }
 
     /**
