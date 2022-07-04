@@ -78,6 +78,8 @@ Route::middleware('auth:api')->group(function () {
     Route::post('un-follow',[\App\Http\Controllers\FollowController::class,'unFollow']);
 
     Route::post('ratting','API\UserController@ratting');
+
+    Route::post('verify-coupon','API\ProductController@VerifyCoupon');
 });
 
 Route::get('/email/verify/{id}/{hash}', 'API\UserController@verify')->name('verification.verify');

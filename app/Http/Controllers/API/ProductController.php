@@ -4,8 +4,10 @@ namespace App\Http\Controllers\API;
 
 use App\Brand;
 use App\Category;
+use App\Discount;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CategoryCollection;
+use App\Http\Resources\Country;
 use App\Product;
 use App\ProductImage;
 use App\Http\Resources\Product as ResourcesProduct;
@@ -209,7 +211,7 @@ class ProductController extends Controller
                 ->get();
         }
         return response()->json([
-            'data' => $sizes
+            'data' => $sizesVerifyCoupon
         ]);
     }
     public function brandCategory(){
@@ -377,6 +379,23 @@ class ProductController extends Controller
         $product->save();
 
         return $this->formatResponse('success','user-data');
+    }
+    public function VerifyCoupon(Request $request){
+        $validator = Validator::make($request->all(), [
+            'coupon_name' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()->first()], 401);
+        }
+        $coupon = Discount::select('discount_percentage','coupon_name')->where('coupon_name',$request->coupon_name)->first();
+        if ($coupon){
+            return $this->formatResponse('success','coupon verify successfully',$coupon);
+        }
+        else{
+            return $this->formatResponse('error','coupon not verify');
+        }
+        
     }
 
 
