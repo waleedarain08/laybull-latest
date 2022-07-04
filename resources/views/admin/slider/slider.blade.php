@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('admin.layouts.app')
 
 @section('content')
     <div class="container-fluid">
@@ -26,7 +26,7 @@
             <th scope="col">{{$loop->index+1}}</th>
             <td scope="col">{{$slider->category->name}}</td>
             <td scope="col">
-                <img style="height: 100px;width: 100px;" src="{{$slider->img_url}}" alt="">
+                <img style="height: 100px;width: 100px; object-fit: contain;" src="{{$slider->img_url}}" alt="">
             </td>
             <td scope="col">{{$slider->text}}</td>
             <td class="text-middle">
