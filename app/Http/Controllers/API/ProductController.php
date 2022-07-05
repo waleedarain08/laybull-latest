@@ -59,7 +59,7 @@ class ProductController extends Controller
     public function homeproducts(){
 
         $laybull_picks=Product::where('featured',1)->limit(10)->get();
-        $latest=Product::orderBy('id','desc')->limit(10)->get();
+        $latest=Product::orderBy('id','desc')->limit(50)->get();
         $release=Product::where('release',1)->limit(10)->get();
         $popular=Product::where('popular',1)->limit(10)->get();
         $categories=Category::orderBy('order_by')->get();
@@ -395,7 +395,7 @@ class ProductController extends Controller
         else{
             return $this->formatResponse('error','coupon not verify');
         }
-        
+
     }
 
 
