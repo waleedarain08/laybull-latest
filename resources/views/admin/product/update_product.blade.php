@@ -117,7 +117,7 @@
                                         <div class="col-md-12 col-sm-4">
                                             <div class="form-group">
                                                 <label for="condition">Release Date</label>
-                                                <input type="date" id="release_date" name="release_date" class="form-control"  value="{{$product->release_date}}>
+                                                <input type="date" id="release_date" name="release_date" class="form-control"  value="{{$product->release_date}}">
                                             </div>
                                         </div>
                                     </div>
