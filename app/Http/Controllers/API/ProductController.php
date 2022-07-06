@@ -211,7 +211,7 @@ class ProductController extends Controller
                 ->get();
         }
         return response()->json([
-            'data' => $sizesVerifyCoupon
+            'data' => $sizes
         ]);
     }
     public function brandCategory(){
