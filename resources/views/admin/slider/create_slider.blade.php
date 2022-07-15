@@ -8,8 +8,13 @@
             @csrf
             <div class="card-body">
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Text on slider</label>
-                    <input type="text" required="" name="text" class="form-control" id="exampleInputEmail1" placeholder="Text on slider">
+                    <label for="exampleInputEmail1">Slider Title</label>
+                    <input type="text" required="" name="title" class="form-control" id="exampleInputEmail1" placeholder="Text on slider">
+
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Slider Description</label>
+                    <input type="text" required="" name="description" class="form-control" id="exampleInputEmail1" placeholder="Text on slider">
 
                 </div>
                 <div class="row">

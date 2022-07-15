@@ -41,7 +41,8 @@ class SliderController extends Controller
     public function store(Request $request)
     {
         $slider = new slider();
-        $slider->text = $request->text ;
+        $slider->title = $request->title ;
+        $slider->description = $request->description ;
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $sliderImg = Str::random(20). '.' . $file->getClientOriginalExtension();
