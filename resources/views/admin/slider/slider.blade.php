@@ -15,7 +15,7 @@
                 <th scope="col">#</th>
                 <th scope="col">Direct To</th>
                 <th scope="col">slider Image</th>
-                <th scope="col">Text</th>
+                <th scope="col">Title</th>
                 <th scope="col">Actions</th>
             </tr>
             </thead>
@@ -28,7 +28,7 @@
             <td scope="col">
                 <img style="height: 100px;width: 100px; object-fit: contain;" src="{{$slider->img_url}}" alt="">
             </td>
-            <td scope="col">{{$slider->text}}</td>
+            <td scope="col">{{$slider->title}}</td>
             <td class="text-middle">
                 <form method="post" action="{{route('slider.destroy',$slider->id)}}" class="">
                     @csrf
