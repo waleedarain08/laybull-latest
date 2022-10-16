@@ -7,6 +7,7 @@ use App\ProductBid;
 use App\ProductBidImage;
 use App\Http\Resources\ProductBid as ResourcesProductBid;
 use App\Http\Resources\ProductBidCollection;
+use App\Notification;
 use App\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,11 +21,10 @@ class ProductBidController extends Controller
      */
     public function index(Request $request)
     {
-        if($request->sent==1){
-            $productbids=$this->sentbidproducts();
-        }
-        else{
-            $productbids=$this->recievedbidproducts();
+        if ($request->sent == 1) {
+            $productbids = $this->sentbidproducts();
+        } else {
+            $productbids = $this->recievedbidproducts();
         }
         return new ProductBidCollection($productbids);
     }
@@ -47,26 +47,44 @@ class ProductBidController extends Controller
      */
     public function store(Request $request)
     {
-//        dd($request->all());
-        $product=Product::find($request->product_id);
-//        return $product;
-        $check=ProductBid::where([
-            'product_id'=>$request->product_id,
-            'user_id'=>Auth::id()])->first();
-        if($check!=null){
+        // dd(Auth::id());
+        $product = Product::find($request->product_id);
+        // dd($product->user_id);
+        //        return $product;
+        $check = ProductBid::where([
+            'product_id' => $request->product_id,
+            'user_id' => Auth::id()
+        ])->first();
+        if ($check != null) {
             $productbid = ProductBid::find($check->id);
             $productbid->price = $request->price;
             $productbid->save();
-            return new ResourcesProductBid($productbid);
+            $body = 'User' . Auth::user()->name . 'bid on your project' . $request->price;
+            $notification = new Notification();
+            $notification->image = $product->featured_image;
+            $notification->user_id = Auth::id();
+            $notification->title = 'Bid Notification';
+            $notification->body =  $body;
+            $notification->save();
+            $this->firebaseNotification($product->user_id, 'Bid Notification', $body);
 
+            return new ResourcesProductBid($productbid);
         }
         $productbid = ProductBid::create([
-            'vendor_id'=>$product->user_id,
-            'user_id'=>auth()->user()->id,
-            'product_id'=>$request->product_id,
-            'status'=>'pending',
-            'price'=>$request->price
+            'vendor_id' => $product->user_id,
+            'user_id' => Auth::id(),
+            'product_id' => $request->product_id,
+            'status' => 'pending',
+            'price' => $request->price
         ]);
+        $body = 'User' . Auth::user()->name . ' bid on your project ' . $request->price;
+        $notification = new Notification();
+        $notification->image = $product->featured_image;
+        $notification->user_id = Auth::id();
+        $notification->title = 'Bid Notification';
+        $notification->body =  $body;
+        $notification->save();
+        $this->firebaseNotification($product->user_id, 'Bid Notification', $body);
         return new ResourcesProductBid($productbid);
     }
 
@@ -124,12 +142,14 @@ class ProductBidController extends Controller
         ]);
     }
 
-    public function recievedbidproducts(){
-        $products=ProductBid::where('vendor_id',auth()->user()->id)->orderBy('price','desc')->get();
+    public function recievedbidproducts()
+    {
+        $products = ProductBid::where('vendor_id', auth()->user()->id)->orderBy('price', 'desc')->get();
         return $products;
     }
-    public function sentbidproducts(){
-        $products=ProductBid::where('user_id',auth()->user()->id)->orderBy('price','desc')->get();
+    public function sentbidproducts()
+    {
+        $products = ProductBid::where('user_id', auth()->user()->id)->orderBy('price', 'desc')->get();
         return $products;
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\NotificationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -13,12 +14,13 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::get('currency', 'API\ProductController@currencyGet');
-Route::get('slider','\App\Http\Controllers\SliderController@apiSlider');
 
-Route::get('guest-home-product','GuestController@homeProduct');
-Route::get('guest-product/{id}','GuestController@product');
-Route::post('guest-product-all','GuestController@allProducts');
+Route::get('currency', 'API\ProductController@currencyGet');
+Route::get('slider', '\App\Http\Controllers\SliderController@apiSlider');
+
+Route::get('guest-home-product', 'GuestController@homeProduct');
+Route::get('guest-product/{id}', 'GuestController@product');
+Route::post('guest-product-all', 'GuestController@allProducts');
 Route::get('searchProduct', 'API\ProductController@searchProduct');
 Route::get('search-filter', 'API\ProductController@searchFilter');
 Route::get('brand_category', 'API\ProductController@brandCategory');
@@ -41,7 +43,7 @@ Route::middleware('auth:api')->group(function () {
 
     Route::get('favouriteproducts', 'API\ProductController@favouriteproducts')->name('favouriteproducts');
 
-//    payment api
+    //    payment api
     Route::post('payment-process', 'PaymentController@payment');
 
 
@@ -65,21 +67,23 @@ Route::middleware('auth:api')->group(function () {
     Route::get('getSendOffersList', 'OfferController@offers');
     Route::get('getReceivedOffers', 'OfferController@collectOffers');
 
-    Route::get('accept-offer/{id}','OfferController@acceptOffer');
-    Route::get('reject-offer/{id}','OfferController@rejectOffer');
-    Route::delete('delete-bit/{productBid}','OfferController@deleteBit');
+    Route::get('accept-offer/{id}', 'OfferController@acceptOffer');
+    Route::get('reject-offer/{id}', 'OfferController@rejectOffer');
+    Route::delete('delete-bit/{productBid}', 'OfferController@deleteBit');
 
 
     Route::post('counterBid', 'OfferController@bid_counter');
 
-    Route::post('all-product','API\ProductController@allProduct');
+    Route::post('all-product', 'API\ProductController@allProduct');
 
-    Route::post('follow',[\App\Http\Controllers\FollowController::class,'follow']);
-    Route::post('un-follow',[\App\Http\Controllers\FollowController::class,'unFollow']);
+    Route::post('follow', [\App\Http\Controllers\FollowController::class, 'follow']);
+    Route::post('un-follow', [\App\Http\Controllers\FollowController::class, 'unFollow']);
 
-    Route::post('ratting','API\UserController@ratting');
+    Route::get('app-notification',[NotificationController::class,'appNotification']);
 
-    Route::post('verify-coupon','API\ProductController@VerifyCoupon');
+    Route::post('ratting', 'API\UserController@ratting');
+
+    Route::post('verify-coupon', 'API\ProductController@VerifyCoupon');
 });
 
 Route::get('/email/verify/{id}/{hash}', 'API\UserController@verify')->name('verification.verify');
@@ -95,7 +99,7 @@ Route::get('/email/verify/{id}/{hash}', 'API\UserController@verify')->name('veri
 
 Route::post('forgot-password', 'API\UserController@forgot_password');
 
-Route::get('password-reset-successful','API\UserController@passwordResetSuccessful')->name('password-reset-successful');
+Route::get('password-reset-successful', 'API\UserController@passwordResetSuccessful')->name('password-reset-successful');
 Route::get('cities', 'API\UserController@cities')->name('cities');
 Route::get('countries', 'API\UserController@countries')->name('countries');
 

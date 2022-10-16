@@ -25,8 +25,9 @@ class FollowController extends Controller
         $follow = new Follow();
         $follow->user_id = Auth::id();
         $follow->follow_id = $request->follow_id;
-        $follow->save();
-
+        // $follow->save();
+        $body = 'User' .Auth::user( )->name.' Following you';
+        $this->firebaseNotification($request->follow_id,'Follow Notiication',$body );
         return  $this->formatResponse('success','You Follow This User Successfully');
     }
     public function unFollow(Request $request){

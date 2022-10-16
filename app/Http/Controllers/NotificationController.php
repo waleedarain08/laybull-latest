@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Notification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class NotificationController extends Controller
 {
@@ -81,5 +82,11 @@ class NotificationController extends Controller
     public function destroy(Notification $notification)
     {
         //
+    }
+    public function appNotification()
+    {
+        $notification= Notification::where('user_id',Auth::id())->get();
+        return $this->formatResponse('success','user notification',$notification,400);
+
     }
 }
