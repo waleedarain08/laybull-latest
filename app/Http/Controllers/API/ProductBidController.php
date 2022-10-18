@@ -80,7 +80,7 @@ class ProductBidController extends Controller
         $body = 'User' . Auth::user()->name . ' bid on your project ' . $request->price;
         $notification = new Notification();
         $notification->image = $product->featured_image;
-        $notification->user_id = Auth::id();
+        $notification->user_id = $product->user_id;
         $notification->title = 'Bid Notification';
         $notification->body =  $body;
         $notification->save();
