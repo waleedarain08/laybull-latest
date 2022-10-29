@@ -59,9 +59,10 @@ class ProductBidController extends Controller
             $productbid = ProductBid::find($check->id);
             $productbid->price = $request->price;
             $productbid->save();
-            $body = 'User' . Auth::user()->name . 'bid on your project' . $request->price;
+            $body = 'You just received an offer';
             $notification = new Notification();
             $notification->image = $product->featured_image;
+            $notification->product_id = $product->id;
             $notification->user_id = Auth::id();
             $notification->title = 'Bid Notification';
             $notification->body =  $body;
