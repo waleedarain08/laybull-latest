@@ -42,7 +42,7 @@ class ProductBidController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -53,39 +53,39 @@ class ProductBidController extends Controller
         //        return $product;
         $check = ProductBid::where([
             'product_id' => $request->product_id,
-            'user_id' => Auth::id()
+            'user_id'    => Auth::id()
         ])->first();
         if ($check != null) {
-            $productbid = ProductBid::find($check->id);
+            $productbid        = ProductBid::find($check->id);
             $productbid->price = $request->price;
             $productbid->save();
-            $body = 'You just received an offer';
-            $notification = new Notification();
-            $notification->image = $product->featured_image;
+            $body                     = 'You just received an offer';
+            $notification             = new Notification();
+            $notification->image      = $product->featured_image;
             $notification->product_id = $product->id;
-            $notification->user_id = Auth::id();
-            $notification->title = 'Bid Notification';
-            $notification->body =  $body;
+            $notification->user_id    = Auth::id();
+            $notification->title      = 'You just received an offer';
+            $notification->body       = $body;
             $notification->save();
-            $this->firebaseNotification($product->user_id, 'Bid Notification', $body);
+            $this->firebaseNotification($product->user_id, 'You just received an offer', $body);
 
             return new ResourcesProductBid($productbid);
         }
-        $productbid = ProductBid::create([
-            'vendor_id' => $product->user_id,
-            'user_id' => Auth::id(),
+        $productbid            = ProductBid::create([
+            'vendor_id'  => $product->user_id,
+            'user_id'    => Auth::id(),
             'product_id' => $request->product_id,
-            'status' => 'pending',
-            'price' => $request->price
+            'status'     => 'pending',
+            'price'      => $request->price
         ]);
-        $body = 'User' . Auth::user()->name . ' bid on your project ' . $request->price;
-        $notification = new Notification();
-        $notification->image = $product->featured_image;
+        $body                  = 'You just received an offer';
+        $notification          = new Notification();
+        $notification->image   = $product->featured_image;
         $notification->user_id = $product->user_id;
-        $notification->title = 'Bid Notification';
-        $notification->body =  $body;
+        $notification->title   = 'You just received an offer';
+        $notification->body    = $body;
         $notification->save();
-        $this->firebaseNotification($product->user_id, 'Bid Notification', $body);
+        $this->firebaseNotification($product->user_id, 'You just received an offer', $body);
         return new ResourcesProductBid($productbid);
     }
 
@@ -93,7 +93,7 @@ class ProductBidController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\ProductBid  $productbid
+     * @param  \App\ProductBid $productbid
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -105,7 +105,7 @@ class ProductBidController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\ProductBid  $productbid
+     * @param  \App\ProductBid $productbid
      * @return \Illuminate\Http\Response
      */
     public function edit(ProductBid $productbid)
@@ -116,8 +116,8 @@ class ProductBidController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\ProductBid  $productbid
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\ProductBid $productbid
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -131,7 +131,7 @@ class ProductBidController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\ProductBid  $productbid
+     * @param  \App\ProductBid $productbid
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -148,6 +148,7 @@ class ProductBidController extends Controller
         $products = ProductBid::where('vendor_id', auth()->user()->id)->orderBy('price', 'desc')->get();
         return $products;
     }
+
     public function sentbidproducts()
     {
         $products = ProductBid::where('user_id', auth()->user()->id)->orderBy('price', 'desc')->get();

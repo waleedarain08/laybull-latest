@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Notification;
 use App\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -32,7 +33,7 @@ class PaymentController extends Controller
 
         // live
         $apikey = "NjU4ZGY3MjQtYjgxNy00ZDljLTg5ZDQtOTNkZGY0MTFlN2JkOmE0NWE3Y2RiLWNkOTgtNDAzMi05ODgxLThiMDI5OWRjMDgzZQ==";     // enter your API key here
-        $ch = curl_init();
+        $ch     = curl_init();
         curl_setopt($ch, CURLOPT_URL, "https://api-gateway.ngenius-payments.com/identity/auth/access-token");
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
             "accept: application/vnd.ni-identity.v1+json",
@@ -41,38 +42,38 @@ class PaymentController extends Controller
         ));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS,  "{\"realmName\":\"NetworkInternational\"}");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, "{\"realmName\":\"NetworkInternational\"}");
         // curl_setopt($ch, CURLOPT_POSTFIELDS,  "{\"realmName\":\"ni\"}");
         $output = json_decode(curl_exec($ch));
         // dd($output);
-        $access_token = $output->access_token;
-        $postData = new StdClass();
+        $access_token    = $output->access_token;
+        $postData        = new StdClass();
         $postData->order = new StdClass();
 
         $postData->action = "SALE";
         $postData->amount = new StdClass();
 
-        $postData->amount->currencyCode = "AED";
-        $postData->amount->value = $request->amount * 100;
-        $postData->emailAddress = $request->email;
-        $postData->billingAddress = new StdClass();
-        $postData->billingAddress->firstName = $request->first_name;
-        $postData->billingAddress->lastName = $request->last_name;
-        $postData->billingAddress->address1 = $request->address1;
-        $postData->billingAddress->city = $request->city;
+        $postData->amount->currencyCode        = "AED";
+        $postData->amount->value               = $request->amount * 100;
+        $postData->emailAddress                = $request->email;
+        $postData->billingAddress              = new StdClass();
+        $postData->billingAddress->firstName   = $request->first_name;
+        $postData->billingAddress->lastName    = $request->last_name;
+        $postData->billingAddress->address1    = $request->address1;
+        $postData->billingAddress->city        = $request->city;
         $postData->billingAddress->countryCode = $request->country_code;
-        $postData->payment = new StdClass();
-        $postData->payment->pan = $request->card_number;
-        $postData->payment->expiry = $request->expiry;
-        $postData->payment->cvv = $request->cvv;
-        $postData->payment->cardholderName = $request->account_name;
+        $postData->payment                     = new StdClass();
+        $postData->payment->pan                = $request->card_number;
+        $postData->payment->expiry             = $request->expiry;
+        $postData->payment->cvv                = $request->cvv;
+        $postData->payment->cardholderName     = $request->account_name;
         // $postData->is3dsRequired = false;
 
 
         // $outlet = "f198652b-ec86-4345-b1e5-a17b68ef0716";
         //live
         $outlet = "b4a48f24-6d4f-4d72-8048-fc01aabcfb37";
-        $token = $access_token;
+        $token  = $access_token;
         // dd($token);
         $json = json_encode($postData);
         // return $json; exit;
@@ -104,8 +105,8 @@ class PaymentController extends Controller
 //        }
 
 
-        $state = $output;
-        $str = "Hello world. It's a beautiful day.";
+        $state    = $output;
+        $str      = "Hello world. It's a beautiful day.";
         $order_id = explode(":", $output->_id);
         // dd($order_id[2]);
         $order_status_link = 'https://api-gateway.ngenius-payments.com/transactions/outlets/' . $outlet . '/orders/' . $order_id[2];
@@ -113,22 +114,22 @@ class PaymentController extends Controller
         $output1 = "";
         if ($state == "AWAIT_3DS") {
             $cnp3ds_url = $output->_links->{'cnp:3ds'}->href;
-            $acsurl = $output->{'3ds'}->acsUrl;
-            $acspareq = $output->{'3ds'}->acsPaReq;
-            $acsmd = $output->{'3ds'}->acsMd;
+            $acsurl     = $output->{'3ds'}->acsUrl;
+            $acspareq   = $output->{'3ds'}->acsPaReq;
+            $acsmd      = $output->{'3ds'}->acsMd;
             // $acsterm = "https://[your-post-3ds-script]";
 
-            $result = [
+            $result      = [
                 'cnp3ds_url' => $cnp3ds_url,
-                'acsurl' => $acsurl,
-                'acspareq' => $acspareq,
-                'acsmd' => $acsmd,
+                'acsurl'     => $acsurl,
+                'acspareq'   => $acspareq,
+                'acsmd'      => $acsmd,
             ];
             $data_string = [
                 "PaRes" => "Y"
             ];
-            $dataString = json_encode($data_string);
-            $ch = curl_init();
+            $dataString  = json_encode($data_string);
+            $ch          = curl_init();
             curl_setopt($ch, CURLOPT_URL, $cnp3ds_url);
             curl_setopt($ch, CURLOPT_HTTPHEADER, array(
                 "Authorization: Bearer " . $access_token,
@@ -154,6 +155,17 @@ class PaymentController extends Controller
                     ]
                 );
             $product->update(['available' => 0]);
+
+            $body                     = 'Your item has sold';
+            $notification             = new Notification();
+            $notification->image      = $product->featured_image;
+            $notification->product_id = $product->id;
+            $notification->user_id    = $product->user_id;
+            $notification->title      = 'Your item has sold';
+            $notification->body       = $body;
+            $notification->save();
+            $this->firebaseNotification($product->user_id, 'Your item has sold', $body);
+
             return response()->json(['state' => $state, 'status' => 'True', 'output' => $output, 'output' => $output1]);
         }
     }
